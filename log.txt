@@ -1,0 +1,100 @@
+2019-02-09T21:30:02.808848+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-09/Avgang_U/all (deflated 95%)
+2019-02-09T21:30:02.808851+00:00 app[scheduler.1]: 
+2019-02-09T21:30:02.808886+00:00 app[scheduler.1]: Summarizing:U_Avgång 2019-02-10
+2019-02-09T21:30:02.823958+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-10/Avgang_U/all (deflated 95%)
+2019-02-09T21:30:02.823962+00:00 app[scheduler.1]: 
+2019-02-09T21:30:11.688918+00:00 app[scheduler.1]: Summarizing:Sci_Avgång 2019-02-08
+2019-02-09T21:30:11.765554+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-08/Avgang_Sci/all (deflated 96%)
+2019-02-09T21:30:11.765557+00:00 app[scheduler.1]: 
+2019-02-09T21:30:11.765650+00:00 app[scheduler.1]: Summarizing:Sci_Avgång 2019-02-09
+2019-02-09T21:30:11.820357+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-09/Avgang_Sci/all (deflated 96%)
+2019-02-09T21:30:11.820360+00:00 app[scheduler.1]: 
+2019-02-09T21:30:11.820370+00:00 app[scheduler.1]: Summarizing:Sci_Avgång 2019-02-10
+2019-02-09T21:30:11.851865+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-10/Avgang_Sci/all (deflated 96%)
+2019-02-09T21:30:11.851868+00:00 app[scheduler.1]: 
+2019-02-09T21:30:11.851902+00:00 app[scheduler.1]: All done!
+2019-02-09T21:30:11.851937+00:00 app[scheduler.1]: All Kn stations saved, continuing
+2019-02-09T21:30:11.851973+00:00 app[scheduler.1]: pushing
+2019-02-09T21:30:12.827805+00:00 app[scheduler.1]: To git@github.com:davvs/davvs.github.io.git
+2019-02-09T21:30:12.827826+00:00 app[scheduler.1]: ! [rejected]        master -> master (fetch first)
+2019-02-09T21:30:12.827828+00:00 app[scheduler.1]: error: failed to push some refs to 'git@github.com:davvs/davvs.github.io.git'
+2019-02-09T21:30:12.827830+00:00 app[scheduler.1]: hint: Updates were rejected because the remote contains work that you do
+2019-02-09T21:30:12.827831+00:00 app[scheduler.1]: hint: not have locally. This is usually caused by another repository pushing
+2019-02-09T21:30:12.827833+00:00 app[scheduler.1]: hint: to the same ref. You may want to first integrate the remote changes
+2019-02-09T21:30:12.827835+00:00 app[scheduler.1]: hint: (e.g., 'git pull ...') before pushing again.
+2019-02-09T21:30:12.827837+00:00 app[scheduler.1]: hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+2019-02-09T21:30:12.828059+00:00 app[scheduler.1]: Nothing to commit
+2019-02-09T21:30:12.828106+00:00 app[scheduler.1]: Pushed!
+2019-02-09T21:50:03.311777+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-09/Ankomst_Kn/all (deflated 95%)
+2019-02-09T21:50:03.311789+00:00 app[scheduler.1]: 
+2019-02-09T21:50:03.311796+00:00 app[scheduler.1]: Summarizing:Kn_Ankomst 2019-02-10
+2019-02-09T21:50:03.326888+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-10/Ankomst_Kn/all (deflated 96%)
+2019-02-09T21:50:03.326890+00:00 app[scheduler.1]: 
+2019-02-09T21:50:03.471470+00:00 app[scheduler.1]: Summarizing:U_Avgång 2019-02-08
+2019-02-09T21:50:03.501409+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-08/Avgang_U/all (deflated 95%)
+2019-02-09T21:50:03.501412+00:00 app[scheduler.1]: 
+2019-02-09T21:50:03.501452+00:00 app[scheduler.1]: Summarizing:U_Avgång 2019-02-09
+2019-02-09T21:50:03.522891+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-09/Avgang_U/all (deflated 95%)
+2019-02-09T21:50:03.522894+00:00 app[scheduler.1]: 
+2019-02-09T21:50:03.522926+00:00 app[scheduler.1]: Summarizing:U_Avgång 2019-02-10
+2019-02-09T21:50:03.538120+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-10/Avgang_U/all (deflated 95%)
+2019-02-09T21:50:03.538125+00:00 app[scheduler.1]: 
+2019-02-09T22:00:10.823091+00:00 heroku[scheduler.1]: State changed from up to crashed
+2019-02-09T22:02:21.109351+00:00 heroku[scheduler.1]: Starting process with command `node scheduler.js`
+2019-02-09T22:10:08.229351+00:00 app[scheduler.1]: Summarizing:Mr_Ankomst 2019-02-08
+2019-02-09T22:10:08.255285+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-08/Ankomst_Mr/all (deflated 96%)
+2019-02-09T22:10:08.255288+00:00 app[scheduler.1]: 
+2019-02-09T22:10:08.255533+00:00 app[scheduler.1]: zallFilename:davvs.github.io/tas/2019-02-08/Ankomst_Mr/zall.zip
+2019-02-09T22:10:08.255645+00:00 app[scheduler.1]: Summarizing:Mr_Ankomst 2019-02-09
+2019-02-09T22:10:08.291723+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-09/Ankomst_Mr/all (deflated 95%)
+2019-02-09T22:10:08.291728+00:00 app[scheduler.1]: 
+2019-02-09T22:10:08.291948+00:00 app[scheduler.1]: zallFilename:davvs.github.io/tas/2019-02-09/Ankomst_Mr/zall.zip
+2019-02-09T22:10:08.292044+00:00 app[scheduler.1]: Summarizing:Mr_Ankomst 2019-02-10
+2019-02-09T22:10:08.326199+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-10/Ankomst_Mr/all (deflated 96%)
+2019-02-09T22:10:08.326206+00:00 app[scheduler.1]: 
+2019-02-09T22:10:08.326424+00:00 app[scheduler.1]: zallFilename:davvs.github.io/tas/2019-02-10/Ankomst_Mr/zall.zip
+2019-02-09T22:10:15.808989+00:00 app[scheduler.1]: Summarizing:Sci_Avgång 2019-02-08
+2019-02-09T22:10:15.922783+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-08/Avgang_Sci/all (deflated 96%)
+2019-02-09T22:10:15.922787+00:00 app[scheduler.1]: 
+2019-02-09T22:10:15.923222+00:00 app[scheduler.1]: zallFilename:davvs.github.io/tas/2019-02-08/Avgang_Sci/zall.zip
+2019-02-09T22:10:15.923315+00:00 app[scheduler.1]: Summarizing:Sci_Avgång 2019-02-09
+2019-02-09T22:10:16.030314+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-09/Avgang_Sci/all (deflated 96%)
+2019-02-09T22:10:16.030318+00:00 app[scheduler.1]: 
+2019-02-09T22:10:16.030598+00:00 app[scheduler.1]: zallFilename:davvs.github.io/tas/2019-02-09/Avgang_Sci/zall.zip
+2019-02-09T22:10:16.030686+00:00 app[scheduler.1]: Summarizing:Sci_Avgång 2019-02-10
+2019-02-09T22:20:02.791987+00:00 app[scheduler.1]: Summarizing:Et_Avgång 2019-02-09
+2019-02-09T22:20:02.811050+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-09/Avgang_Et/all (deflated 94%)
+2019-02-09T22:20:02.811053+00:00 app[scheduler.1]: 
+2019-02-09T22:20:02.811198+00:00 app[scheduler.1]: zallFilename:davvs.github.io/tas/2019-02-09/Avgang_Et/zall.zip
+2019-02-09T22:20:02.811293+00:00 app[scheduler.1]: Summarizing:Et_Avgång 2019-02-10
+2019-02-09T22:20:02.824092+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-10/Avgang_Et/all (deflated 95%)
+2019-02-09T22:20:02.824096+00:00 app[scheduler.1]: 
+2019-02-09T22:20:02.825808+00:00 app[scheduler.1]: zallFilename:davvs.github.io/tas/2019-02-10/Avgang_Et/zall.zip
+2019-02-09T22:20:37.069193+00:00 app[scheduler.1]: To git@github.com:davvs/davvs.github.io.git
+2019-02-09T22:20:37.069208+00:00 app[scheduler.1]: fceebe2..93286ce  master -> master
+2019-02-09T22:20:37.069398+00:00 app[scheduler.1]: 
+2019-02-09T22:20:37.069488+00:00 app[scheduler.1]: Pushed!
+2019-02-09T22:30:01.838829+00:00 app[scheduler.1]: Summarizing:Sgs_Avgång 2019-02-08
+2019-02-09T22:30:01.866205+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-08/Avgang_Sgs/all (deflated 94%)
+2019-02-09T22:30:01.866209+00:00 app[scheduler.1]: 
+2019-02-09T22:30:01.866365+00:00 app[scheduler.1]: zallFilename:davvs.github.io/tas/2019-02-08/Avgang_Sgs/zall.zip
+2019-02-09T22:30:01.866460+00:00 app[scheduler.1]: Summarizing:Sgs_Avgång 2019-02-09
+2019-02-09T22:30:01.883078+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-09/Avgang_Sgs/all (deflated 93%)
+2019-02-09T22:30:01.883082+00:00 app[scheduler.1]: 
+2019-02-09T22:30:01.883315+00:00 app[scheduler.1]: zallFilename:davvs.github.io/tas/2019-02-09/Avgang_Sgs/zall.zip
+2019-02-09T22:30:01.883410+00:00 app[scheduler.1]: Summarizing:Sgs_Avgång 2019-02-10
+2019-02-09T22:30:01.895288+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-10/Avgang_Sgs/all (deflated 93%)
+2019-02-09T22:30:01.895291+00:00 app[scheduler.1]: 
+2019-02-09T22:30:01.895503+00:00 app[scheduler.1]: zallFilename:davvs.github.io/tas/2019-02-10/Avgang_Sgs/zall.zip
+2019-02-09T22:30:06.578544+00:00 app[scheduler.1]: Summarizing:U_Ankomst 2019-02-08
+2019-02-09T22:30:06.618800+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-08/Ankomst_U/all (deflated 95%)
+2019-02-09T22:30:06.618804+00:00 app[scheduler.1]: 
+2019-02-09T22:30:06.618975+00:00 app[scheduler.1]: zallFilename:davvs.github.io/tas/2019-02-08/Ankomst_U/zall.zip
+2019-02-09T22:30:06.619060+00:00 app[scheduler.1]: Summarizing:U_Ankomst 2019-02-09
+2019-02-09T22:30:06.654744+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-09/Ankomst_U/all (deflated 95%)
+2019-02-09T22:30:06.654747+00:00 app[scheduler.1]: 
+2019-02-09T22:30:06.655007+00:00 app[scheduler.1]: zallFilename:davvs.github.io/tas/2019-02-09/Ankomst_U/zall.zip
+2019-02-09T22:30:06.655112+00:00 app[scheduler.1]: Summarizing:U_Ankomst 2019-02-10
+2019-02-09T22:30:06.690647+00:00 app[scheduler.1]: updating: davvs.github.io/tas/2019-02-10/Ankomst_U/all (deflated 95%)
+2019-02-09T22:30:06.690651+00:00 app[scheduler.1]: 
+2019-02-09T22:30:06.690966+00:00 app[scheduler.1]: zallFilename:davvs.github.io/tas/2019-02-10/Ankomst_U/zall.zip

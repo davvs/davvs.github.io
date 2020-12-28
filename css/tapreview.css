@@ -1,0 +1,12 @@
+body {
+    margin: 1em;
+    background-color: #ededff;
+}
+
+.stationInfo {
+    border: solid 2px;
+}
+
+td {
+    padding-right: 1em;
+}

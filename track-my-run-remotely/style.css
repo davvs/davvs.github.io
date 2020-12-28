@@ -1,0 +1,14 @@
+#ptData {
+    font-size: 10px;
+}
+table td, table th {
+    border-style: solid;
+    border-width: 1px;
+    padding: 2px;
+    margin: 0;
+    border-spacing: 0;
+}
+
+.hidden {
+    display: none;
+}

@@ -1,0 +1,113 @@
+<html>
+    <head>
+        <title>Track my run</title>
+        <meta charset="UTF-8">
+        <link rel = "stylesheet" type = "text/css" href = "style.css" />
+    </head>
+    <body>
+        <h1>Track my run</h1>
+        <div>
+            <label for="day">Day</label>
+            <input type="date" id="day" name="day"/>
+            <input type="button" id="updateToday" name="updateToday" value="today"/>
+        </div>
+
+
+        <div>
+            <div id="raceStatus">Warming up</div>
+            <div id="raceElapsed"></div>
+        </div>
+
+        <input type="time" placeholder="HH:mm" step="1" id="startTime"></input>
+        <input type="button" value="Start race" id="startRace"></input>
+        <input type="time" placeholder="HH:mm" id="endTime" step="1"></input>
+        <input type="button" value="Stop race" id="stopRace"></input>
+        <input type="button" value="Clear race" id="clearRace"></input>
+        <input type="button" value="Add runner to track" id="addUser"></input>
+
+        <label for="debug">Debug</label>
+        <input type="checkbox" value="debug" id="debug"></input>
+        <div>
+            <button id="randomizeData">Randomize Data</button>
+            <button id="addDataset">Add Dataset</button>
+            <button id="removeDataset">Remove Dataset</button>
+            <button id="addData">Add Data</button>
+            <button id="removeData">Remove Data</button>
+
+            <label for="dataPointsGroupTimeS">Datapoint group size (ms)</label>
+            <input type="number" id="dataPointsGroupTimeS" value="10000"/>
+            <select name="speedunit" id="speedunit">
+                <option value="mps">Speed m/s</option>
+                <option value="kmph">Speed km/h</option>
+                <option value="minpkm">Pace min/km</option>
+                <option value="alt">Altitude</option>
+                <option value="totdist">Total distance</option>
+            </select>
+            <button id="updateGraph">Update graph</button>
+        </div>
+
+        <button id="updatePtData">updatePtData</button>
+        <ul id="ptUsers">
+        </ul>
+        <div id="ptSection" class="hidden">
+            <h2>PtData</h2>
+            <table id="ptData">
+                <thead>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <h2>Group data</h2>
+            <table id="gpData">
+                <thead>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="width:75%;">
+            <canvas id="canvas"></canvas>
+        </div>
+
+        <div id="userIds">
+        </div>
+
+
+        <p/>
+        <!--
+        <a href="track-my-run-remotely.apk">Download APK</a>
+        -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+             https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-analytics.js"></script>
+
+        <script>
+          // Your web app's Firebase configuration
+          // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+          var firebaseConfig = {
+            apiKey: "AIzaSyASIBUo435A9GsdKBNTr3gI2HHLNOk9sPk",
+            authDomain: "track-my-run-remotely.firebaseapp.com",
+            databaseURL: "https://track-my-run-remotely.firebaseio.com",
+            projectId: "track-my-run-remotely",
+            storageBucket: "track-my-run-remotely.appspot.com",
+            messagingSenderId: "1095977086094",
+            appId: "1:1095977086094:web:da9d9dedad97e6e381addf",
+            measurementId: "G-F9YSL74FDK"
+          };
+          // Initialize Firebase
+          firebase.initializeApp(firebaseConfig);
+          firebase.analytics();
+        </script>
+        <script src="utils.js"></script>
+        <script src="graph.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+        <script src="track-my-run.js"></script>
+    </body>
+</html>
