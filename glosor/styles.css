@@ -1,0 +1,110 @@
+.word, .translation{
+  margin-right: 8px; /* Adds a small space between word-item spans */
+}
+
+.background-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2); /* Change the alpha value for desired transparency */
+  z-index: -1;
+  background: url("images/fountain_of_knowledge_dark.png") center center;
+  background-size: cover;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+}
+
+
+.content {
+  background-color: rgba(255, 255, 255, 0.75); /* Adjust the alpha value as desired for darkness */
+  padding: 20px;
+  color: #000;
+  margin-top: 4em;
+}
+
+h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex; /* Display the links side by side */
+}
+
+nav li {
+  margin-right: 10px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 600px) {
+  .header-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  h1 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  nav ul {
+    flex-direction: column;
+    margin-top: 10px;
+  }
+
+  nav li {
+    margin-right: 0;
+    margin-bottom: 5px;
+  }
+}
+
+h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+ul.nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+ul.nav-links li {
+  margin-right: 10px;
+}
+
+ul.nav-links li a {
+  color: #fff;
+  text-decoration: none;
+}
+

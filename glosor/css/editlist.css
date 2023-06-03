@@ -1,0 +1,13 @@
+.glos-item {
+  display: flex;
+  align-items: center;
+}
+
+.glos-words,
+.glos-translations {
+  display: inline-block;
+}
+
+.glos-translations, .remove-button {
+  margin-left: 10px;
+}

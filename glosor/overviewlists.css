@@ -1,0 +1,33 @@
+/* Add your custom CSS rules here */
+
+.hidden {
+  display: none;
+}
+
+#practiceListContainer {
+  list-style: none;
+  padding: 0;
+}
+
+#practiceListContainer li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+#practiceListContainer li span {
+  margin-right: 8px;
+}
+
+#practiceListContainer li button {
+  margin-right: 4px;
+}
+
+#practiceListContainer li .edit-input-container {
+  display: flex;
+  align-items: center;
+}
+
+#practiceListContainer li .edit-input-container input {
+  margin-right: 4px;
+}
