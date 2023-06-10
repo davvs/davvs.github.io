@@ -1,5 +1,5 @@
 class Rehearsal {
-    constructor(practiceList, maxRecentResponses = 10) {
+    constructor(practiceList, maxRecentResponses = 10, avoidRepeatFrequency = 2) {
         if (!(practiceList instanceof PracticeList)) {
             throw new Error("Invalid argument. 'practiceList' must be an instance of PracticeList.");
         }
@@ -8,32 +8,39 @@ class Rehearsal {
             throw new Error("Invalid argument. 'maxRecentResponses' must be a positive number.");
         }
 
+        if (typeof avoidRepeatFrequency !== "number" || avoidRepeatFrequency < 1) {
+            throw new Error("Invalid argument. 'avoidRepeatFrequency' must be a positive number.");
+        }
+
         this.practiceList = practiceList;
         this.knowledgeStates = new Map();
         this.maxRecentResponses = maxRecentResponses;
+        this.avoidRepeatFrequency = avoidRepeatFrequency;
+        this.initialScore = 30;
+        this.recentIndices = [];
 
         this.practiceList.gloses.forEach((glos, index) => {
             this.knowledgeStates.set(index, {
-                knowledge: this.initializeKnowledgeState(),
-                translationKnowledge: this.initializeKnowledgeState(),
+                knowledge: this.initializeKnowledgeState(this.initialScore),
+                translationKnowledge: this.initializeKnowledgeState(this.initialScore),
             });
         });
     }
 
-    initializeKnowledgeState() {
+    initializeKnowledgeState(initialScore) {
         return {
             recentResponses: [],
-            score: 50,
+            score: initialScore,
         };
     }
 
-    submitAnswer(glosIndex, isTranslation, guess) {
+    submitAnswer(glosIndex, isAnswerTranslation, guess) {
         if (typeof glosIndex !== "number" || glosIndex < 0 || glosIndex >= this.practiceList.gloses.length) {
             throw new Error("Invalid argument. 'glosIndex' must be a valid index within the range of PracticeList gloses.");
         }
 
-        if (typeof isTranslation !== "boolean") {
-            throw new Error("Invalid argument. 'isTranslation' must be a boolean value.");
+        if (typeof isAnswerTranslation !== "boolean") {
+            throw new Error("Invalid argument. 'isAnswerTranslation' must be a boolean value.");
         }
 
         if (typeof guess !== "string") {
@@ -41,11 +48,21 @@ class Rehearsal {
         }
 
         const glos = this.practiceList.gloses[glosIndex];
-        const isCorrect = isTranslation
-            ? glos.translations.includes(guess)
-            : glos.words.includes(guess);
+        const isCorrect = isAnswerTranslation ? glos.translations.includes(guess) : glos.words.includes(guess);
 
-        const knowledgeState = isTranslation
+        return {
+            isCorrect,
+            score: this.getScore(glosIndex, isAnswerTranslation),
+        };
+    }
+
+    acceptResult(glosIndex, isAnswerTranslation, guess, isCorrect) {
+        if (typeof glosIndex !== "number" || glosIndex < 0 || glosIndex >= this.practiceList.gloses.length) {
+            throw new Error("Invalid argument. 'glosIndex' must be a valid index within the range of PracticeList gloses.");
+        }
+
+        const glos = this.practiceList.gloses[glosIndex];
+        const knowledgeState = isAnswerTranslation
             ? this.knowledgeStates.get(glosIndex).translationKnowledge
             : this.knowledgeStates.get(glosIndex).knowledge;
 
@@ -60,16 +77,17 @@ class Rehearsal {
             knowledgeState.recentResponses.shift();
         }
 
-        knowledgeState.score = this.getScore(glosIndex, isTranslation);
-        return isCorrect;
+        knowledgeState.score = this.getScore(glosIndex, isAnswerTranslation);
+
+        this.updateRecentIndices(glosIndex);
     }
 
-    getScore(glosIndex, isTranslation) {
+    getScore(glosIndex, isAnswerTranslation) {
         if (typeof glosIndex !== "number" || glosIndex < 0 || glosIndex >= this.practiceList.gloses.length) {
             throw new Error("Invalid argument. 'glosIndex' must be a valid index within the range of PracticeList gloses.");
         }
 
-        const knowledgeState = isTranslation
+        const knowledgeState = isAnswerTranslation
             ? this.knowledgeStates.get(glosIndex).translationKnowledge
             : this.knowledgeStates.get(glosIndex).knowledge;
 
@@ -82,19 +100,29 @@ class Rehearsal {
         return Math.round(percentage);
     }
 
-    getLowestScoreIndex() {
+    getLowestScoreIndex(avoidRecentList = []) {
         let lowestScoreIndex = null;
         let lowestScore = 100;
 
         this.knowledgeStates.forEach((state, index) => {
-            const knowledgeScore = Math.min(state.knowledge.score, state.translationKnowledge.score);
-            if (knowledgeScore < lowestScore) {
-                lowestScore = knowledgeScore;
-                lowestScoreIndex = index;
+            if (!avoidRecentList.includes(index)) {
+                const knowledgeScore = Math.min(state.knowledge.score, state.translationKnowledge.score);
+                if (knowledgeScore < lowestScore) {
+                    lowestScore = knowledgeScore;
+                    lowestScoreIndex = index;
+                }
             }
         });
 
         return lowestScoreIndex;
+    }
+
+    updateRecentIndices(index) {
+        this.recentIndices.push(index);
+
+        if (this.recentIndices.length > this.avoidRepeatFrequency) {
+            this.recentIndices.shift();
+        }
     }
 
     debugPrint() {
@@ -108,7 +136,17 @@ class Rehearsal {
             console.log(`Translations: ${glos.translations.join(", ")}`);
             console.log(`Knowledge Score: ${state.knowledge.score}`);
             console.log(`TranslationKnowledge Score: ${state.translationKnowledge.score}`);
+            console.log("Recent translation Guesses:");
+            state.knowledge.recentResponses.forEach((response, i) => {
+                console.log(`Guess ${i + 1}: ${response.guess} - ${response.correct ? "Correct" : "Incorrect"}`);
+            });
+            console.log("Recent reversed Guesses:");
+            state.translationKnowledge.recentResponses.forEach((response, i) => {
+                console.log(`Guess on reverse ${i + 1}: ${response.guess} - ${response.correct ? "Correct" : "Incorrect"}`);
+            });
             console.log("-------------------");
         });
     }
+
 }
+

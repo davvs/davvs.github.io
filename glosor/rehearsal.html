@@ -11,8 +11,16 @@
 <div class="background-overlay"></div>
 <header></header>
 <div class="content">
-  <button id="startButton">Starta glosförhör</button>
-  <div id="message">Click "Starta glosförhör" to begin.</div>
+  <form id="startForm">
+    <label for="avoidRepeatFrequency">Antal glosor i taget innan nya tas in</label>
+    <input type="number" id="avoidRepeatFrequency" min="2" value="3">
+    <br/>
+    <label for="maxRecentResponses">Krävda antal rätt i rad för att ett översättning ska tolkas som kunskap</label>
+    <input type="number" id="maxRecentResponses" min="1" value="4">
+    <br/>
+    <button type="submit">Starta glosförhör</button>
+  </form>
+  <div id="message">Klicka på "Starta glosförhör" för att börja.</div>
   <form id="quizForm"></form>
   <button id="debugButton">Debug</button>
 </div>
@@ -24,4 +32,3 @@
 <script src="js/view/rehearsal.js"></script>
 </body>
 </html>
-

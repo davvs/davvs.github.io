@@ -3,31 +3,43 @@ let persistenceManager = new PersistenceManager();
 const urlParams = new URLSearchParams(window.location.search);
 const localList = urlParams.get("localList");
 const rehearsalList = persistenceManager.getPracticeListByName(localList);
-const currentRehearsal = new Rehearsal(rehearsalList, 2);
+let currentRehearsal;
 
-const startButton = document.getElementById("startButton");
+const startForm = document.getElementById("startForm");
 const quizForm = document.getElementById("quizForm");
 const messageDiv = document.getElementById("message");
 const debugButton = document.getElementById("debugButton");
 
+let lowestScoreIndex;
+let isAnswerTranslation;
+let guess;
+let isCorrect;
 
-startButton.addEventListener("click", () => {
+startForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const maxRecentResponsesInput = document.getElementById("maxRecentResponses");
+    const maxRecentResponses = parseInt(maxRecentResponsesInput.value, 10);
+    const avoidRepeatFrequencyInput = document.getElementById("avoidRepeatFrequency");
+    const avoidRepeatFrequency = parseInt(avoidRepeatFrequencyInput.value, 10);
+    currentRehearsal = new Rehearsal(rehearsalList, maxRecentResponses, avoidRepeatFrequency);
     nextQuestion();
-    startButton.remove();
-    messageDiv.innerHTML="";
+    startForm.remove();
+    messageDiv.innerHTML = "";
 });
+
 debugButton.addEventListener("click", () => {
     currentRehearsal.debugPrint();
 });
 
 function nextQuestion() {
-    const lowestScoreIndex = currentRehearsal.getLowestScoreIndex();
+    const avoidRecentList = currentRehearsal.recentIndices.slice(-currentRehearsal.avoidRepeatFrequency);
+    lowestScoreIndex = currentRehearsal.getLowestScoreIndex(avoidRecentList);
     const knowledgeState = currentRehearsal.knowledgeStates.get(lowestScoreIndex);
 
     const glos = rehearsalList.gloses[lowestScoreIndex];
-    const isTranslation = knowledgeState.translationKnowledge.score < knowledgeState.knowledge.score;
-    const promptText = isTranslation ? "Översätt " + glos.words.join(", ") : "Översätt " + glos.translations.join(", ");
-    const inputPlaceholder = isTranslation ? "Enter translation" : "Enter words";
+    isAnswerTranslation = knowledgeState.translationKnowledge.score < knowledgeState.knowledge.score;
+    const promptText = isAnswerTranslation ? "Översätt " + glos.words.join(", ") : "Översätt " + glos.translations.join(", ");
+    const inputPlaceholder = isAnswerTranslation ? "Enter translation" : "Enter words";
 
     quizForm.innerHTML = "";
 
@@ -44,29 +56,35 @@ function nextQuestion() {
     const submitButton = document.createElement("button");
     submitButton.textContent = "Submit";
     quizForm.appendChild(submitButton);
+
+    submitButton.addEventListener("click", () => {
+        guess = inputField.value.trim();
+
+        const knowledgeState = currentRehearsal.knowledgeStates.get(lowestScoreIndex);
+        const result = currentRehearsal.submitAnswer(lowestScoreIndex, isAnswerTranslation, guess);
+        isCorrect = result.isCorrect;
+        handleResult(lowestScoreIndex, isAnswerTranslation, guess, isCorrect);
+    });
 }
 
-quizForm.addEventListener("submit", (event) => {
-    event.preventDefault(); // Prevent the default form submission behavior
-
-    const inputField = quizForm.querySelector("input");
-    const guess = inputField.value.trim();
-
-    const lowestScoreIndex = currentRehearsal.getLowestScoreIndex();
-    const knowledgeState = currentRehearsal.knowledgeStates.get(lowestScoreIndex);
-    const isTranslation = knowledgeState.translationKnowledge.score < knowledgeState.knowledge.score;
-    const isCorrect = currentRehearsal.submitAnswer(lowestScoreIndex, isTranslation, guess);
-    handleResult(lowestScoreIndex, isTranslation, guess, isCorrect);
-});
-
-function handleResult(index, isTranslation, guess, isCorrect) {
+function handleResult(index, isAnswerTranslation, guess, isCorrect) {
     let glos = currentRehearsal.practiceList.gloses[index];
-    const resultMessage = (isCorrect ? "<span class='correct'>Correct!</span>" : `Incorrect! You guessed <b class="incorrect">${guess}</b>`) + "<p>\n" + glos.words.join(",") + " <i> översätts till </i>   " + glos.translations.join(",") + "</p>";
+    const resultMessage =
+        (isCorrect
+            ? "<span class='correct'>Rätt!</span>"
+            : `Fel! Du gissade <b class="incorrect">${guess}</b>`) +
+        "<p>\n" +
+        glos.words.join(",") +
+        " <i> översätts till </i>   " +
+        glos.translations.join(",") +
+        "</p>";
     const nextButton = document.createElement("button");
     nextButton.textContent = "Next";
     nextButton.addEventListener("click", () => {
-        messageDiv.innerHTML = ""
-        if (currentRehearsal.getLowestScoreIndex() === null) {
+        currentRehearsal.acceptResult(lowestScoreIndex, isAnswerTranslation, guess, isCorrect);
+        currentRehearsal.updateRecentIndices(lowestScoreIndex);
+        messageDiv.innerHTML = "";
+        if (currentRehearsal.getLowestScoreIndex(currentRehearsal.recentIndices.slice(-currentRehearsal.avoidRepeatFrequency)) === null) {
             showCompletionMessage();
         } else {
             nextQuestion();
