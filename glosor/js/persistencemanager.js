@@ -14,7 +14,7 @@ class PersistenceManager {
     const serializedList = localStorage.getItem(key);
     if (serializedList) {
       const parsedList = JSON.parse(serializedList);
-      const gloses = parsedList.gloses.map((glosData) => new Glos(glosData.words, glosData.translations));
+      const gloses = parsedList.gloses.map((glosData) => new Glos(glosData._words, glosData._translations, glosData._clues, glosData._translationClues));
       return new PracticeList(parsedList.name, gloses);
     }
     return null;

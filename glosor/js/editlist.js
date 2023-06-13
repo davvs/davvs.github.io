@@ -7,6 +7,8 @@ class PracticeListController {
     this.addGlosForm = document.getElementById("addGlosForm");
     this.wordsInput = document.getElementById("wordsInput");
     this.translationsInput = document.getElementById("translationsInput");
+    this.cluesInput = document.getElementById("cluesInput");
+    this.translationCluesInput = document.getElementById("translationCluesInput");
 
     this.addGlosForm.addEventListener("submit", this.handleAddGlos.bind(this));
     this.glosListContainer.addEventListener("click", this.handleRemoveButtonClick.bind(this));
@@ -43,6 +45,8 @@ class PracticeListController {
         glosItem.innerHTML = `
           <div class="glos-words">${glos.words.join(", ")}</div>
           <div class="glos-translations">${glos.translations.join(", ")}</div>
+          <div class="glos-clues">${glos.clues.join(", ")}</div>
+          <div class="glos-translation-clues">${glos.translationClues.join(", ")}</div>
           <button class="remove-button" data-index="${index}">Remove</button>
         `;
         this.glosListContainer.appendChild(glosItem);
@@ -56,8 +60,10 @@ class PracticeListController {
     event.preventDefault();
     const words = this.wordsInput.value.trim().split(",").map(word => word.trim());
     const translations = this.translationsInput.value.trim().split(",").map(translation => translation.trim());
+    const clues = this.cluesInput.value.trim().split(",").map(clue => clue.trim());
+    const translationClues = this.translationCluesInput.value.trim().split(",").map(clue => clue.trim());
     if (words.length > 0 && translations.length > 0) {
-      const glos = new Glos(words, translations);
+      const glos = new Glos(words, translations, clues, translationClues);
       this.practiceList.gloses.push(glos);
       this.savePracticeList();
       this.renderGlosList();
@@ -80,6 +86,8 @@ class PracticeListController {
   clearInputs() {
     this.wordsInput.value = "";
     this.translationsInput.value = "";
+    this.cluesInput.value = "";
+    this.translationCluesInput.value = "";
   }
 }
 

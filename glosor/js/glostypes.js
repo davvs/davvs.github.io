@@ -1,15 +1,74 @@
 class Glos {
-  constructor(words, translations) {
-    if (!Array.isArray(words) || !Array.isArray(translations)) {
-      throw new Error("Invalid arguments. 'words' and 'translations' must be arrays.");
+  constructor(words, translations, clues, translationClues) {
+    this._validateArray(words, "words");
+    this._validateArray(translations, "translations");
+    this._validateArray(clues, "clues");
+    this._validateArray(translationClues, "translationClues");
+
+    this._words = words;
+    this._translations = translations;
+    this._clues = clues;
+    this._translationClues = translationClues;
+  }
+
+  get words() {
+    return this._words;
+  }
+
+  set words(value) {
+    this._validateArray(value, "words");
+    this._words = value;
+  }
+
+  get translations() {
+    return this._translations;
+  }
+
+  set translations(value) {
+    this._validateArray(value, "translations");
+    this._translations = value;
+  }
+
+  get clues() {
+    return this._clues;
+  }
+
+  set clues(value) {
+    this._validateArray(value, "clues");
+    this._clues = value;
+  }
+
+  get translationClues() {
+    return this._translationClues;
+  }
+
+  set translationClues(value) {
+    this._validateArray(value, "translationClues");
+    this._translationClues = value;
+  }
+
+  _validateArray(array, paramName) {
+    if (!Array.isArray(array)) {
+      throw new Error(`Invalid arguments. '${paramName}' must be an array.`);
     }
 
-    if (!words.every(word => typeof word === "string") || !translations.every(translation => typeof translation === "string")) {
-      throw new Error("Invalid arguments. 'words' and 'translations' must be arrays of strings.");
-    }
+    const forbiddenCharacters = ["<"]; // Add more forbidden characters if needed
 
-    this.words = words;
-    this.translations = translations;
+    for (const item of array) {
+      if (typeof item !== "string") {
+        throw new Error(`Invalid arguments. '${paramName}' must be an array of strings.`);
+      }
+
+      if (!item.trim()) {
+        throw new Error(`Invalid arguments. '${paramName}' must not contain empty strings.`);
+      }
+
+      for (const char of forbiddenCharacters) {
+        if (item.includes(char)) {
+          throw new Error(`Invalid arguments. '${paramName}' must not contain forbidden characters.`);
+        }
+      }
+    }
   }
 }
 
