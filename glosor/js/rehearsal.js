@@ -48,7 +48,11 @@ class Rehearsal {
         }
 
         const glos = this.practiceList.gloses[glosIndex];
-        const isCorrect = isAnswerTranslation ? glos.translations.includes(guess) : glos.words.includes(guess);
+        const guessLowerCase = guess.trim().toLowerCase();
+
+        const isCorrect = isAnswerTranslation
+            ? glos.translations.some(translation => translation.trim().toLowerCase() === guessLowerCase)
+            : glos.words.some(word => word.trim().toLowerCase() === guessLowerCase);
 
         return {
             isCorrect,

@@ -39,7 +39,7 @@ function nextQuestion() {
     const glos = rehearsalList.gloses[lowestScoreIndex];
     isAnswerTranslation = knowledgeState.translationKnowledge.score < knowledgeState.knowledge.score;
     const promptText = isAnswerTranslation ? "Översätt " + glos.words.join(", ") : "Översätt " + glos.translations.join(", ");
-    const inputPlaceholder = isAnswerTranslation ? "Enter translation" : "Enter words";
+    const inputPlaceholder = isAnswerTranslation ? "Skriv översättning" : "Skriv ordet";
 
     quizForm.innerHTML = "";
 
@@ -54,7 +54,7 @@ function nextQuestion() {
     inputField.focus();
 
     const submitButton = document.createElement("button");
-    submitButton.textContent = "Submit";
+    submitButton.textContent = "Svara";
     quizForm.appendChild(submitButton);
 
     submitButton.addEventListener("click", () => {
@@ -79,7 +79,7 @@ function handleResult(index, isAnswerTranslation, guess, isCorrect) {
         glos.translations.join(",") +
         "</p>";
     const nextButton = document.createElement("button");
-    nextButton.textContent = "Next";
+    nextButton.textContent = "Nästa (Och acceptera svaret)";
     nextButton.addEventListener("click", () => {
         currentRehearsal.acceptResult(lowestScoreIndex, isAnswerTranslation, guess, isCorrect);
         currentRehearsal.updateRecentIndices(lowestScoreIndex);
