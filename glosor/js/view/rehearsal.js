@@ -67,6 +67,47 @@ function nextQuestion() {
         isCorrect = result.isCorrect;
         handleResult(lowestScoreIndex, isAnswerTranslation, guess, isCorrect);
     });
+
+
+    const showClueButton = document.createElement("button");
+    showClueButton.textContent = "Visa ledtråd";
+    showClueButton.type = "button";
+    quizForm.appendChild(showClueButton);
+
+    let clueCounter = 0;
+    let revealedAnswer = "";
+
+    showClueButton.addEventListener("click", () => {
+        const glos = rehearsalList.gloses[lowestScoreIndex];
+        const clues = isAnswerTranslation ? glos.translationClues : glos.clues;
+
+        if (clueCounter < clues.length) {
+            const randomClue = clues[clueCounter];
+            const clueElement = document.createElement("p");
+            clueElement.textContent = randomClue;
+            quizForm.appendChild(clueElement);
+            clueCounter++;
+        } else {
+            if (revealedAnswer === "") {
+                const answer = isAnswerTranslation ? glos.translations[0] : glos.words[0];
+                revealedAnswer = answer.charAt(0);
+            } else {
+                const answer = isAnswerTranslation ? glos.translations[0] : glos.words[0];
+                const nextLetter = answer.charAt(revealedAnswer.length);
+                revealedAnswer += nextLetter;
+            }
+
+            const answerElement = document.createElement("p");
+            answerElement.textContent = revealedAnswer;
+            quizForm.appendChild(answerElement);
+
+            // Check if the word is fully revealed
+            if (revealedAnswer.length === (isAnswerTranslation ? glos.translations[0].length : glos.words[0].length)) {
+                showClueButton.remove(); // Remove the clue button
+            }
+        }
+    });
+
 }
 
 function handleResult(index, isAnswerTranslation, guess, isCorrect) {
@@ -104,6 +145,6 @@ function handleResult(index, isAnswerTranslation, guess, isCorrect) {
 
 function showCompletionMessage() {
     messageDiv.innerHTML = "";
-    messageDiv.textContent = "Congratulations! You have completed the rehearsal.";
+    messageDiv.textContent = "🎉Grattis! 🎉 Du har klarat förhöret! 🚀";
 }
 
