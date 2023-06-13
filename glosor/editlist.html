@@ -11,7 +11,22 @@
 <div class="background-overlay"></div>
 <header></header>
 <div class="content">
-  <h1>Editera lista</h1>
+  <h1>Gloslista</h1>
+  <button id="rehearsalButton">Träna på</button>
+
+
+  <h2>Domän</h2>
+  <form id="domainForm">
+    <label for="wordDomain">Orddomän:</label>
+    <input type="text" id="wordDomain" value="🇸🇪">
+
+    <label for="translationDomain">Översättningsdomän:</label>
+    <input type="text" id="translationDomain" value="🇬🇧">
+
+    <button type="submit">Spara</button>
+  </form>
+
+  <h2>Glosor</h2>
   <form id="addGlosForm">
     <input type="text" id="wordsInput" placeholder="Ord, använd ',' för flera ord">
     <input type="text" id="translationsInput" placeholder="Översättning, använd ',' för flera ord">

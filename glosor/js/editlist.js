@@ -1,4 +1,3 @@
-// Controller
 class PracticeListController {
   constructor() {
     this.persistenceManager = new PersistenceManager();
@@ -9,12 +8,26 @@ class PracticeListController {
     this.translationsInput = document.getElementById("translationsInput");
     this.cluesInput = document.getElementById("cluesInput");
     this.translationCluesInput = document.getElementById("translationCluesInput");
+    this.domainForm = document.getElementById("domainForm");
+    this.wordDomainInput = document.getElementById("wordDomain");
+    this.translationDomainInput = document.getElementById("translationDomain");
+    this.rehearsalButton = document.getElementById("rehearsalButton");
 
+    this.rehearsalButton.addEventListener("click", this.handleRehearsalButtonClick.bind(this));
     this.addGlosForm.addEventListener("submit", this.handleAddGlos.bind(this));
     this.glosListContainer.addEventListener("click", this.handleRemoveButtonClick.bind(this));
+    this.domainForm.addEventListener("submit", this.handleDomainFormSubmit.bind(this));
 
     this.loadPracticeList();
     this.renderGlosList();
+    this.renderDomainInputs();
+  }
+
+  handleRehearsalButtonClick() {
+    if (this.practiceList) {
+      const rehearsalUrl = `rehearsal.html?localList=${encodeURIComponent(this.practiceList.name)}`;
+      window.location.href = rehearsalUrl;
+    }
   }
 
   loadPracticeList() {
@@ -43,10 +56,10 @@ class PracticeListController {
         const glosItem = document.createElement("div");
         glosItem.classList.add("glos-item");
         glosItem.innerHTML = `
-          <div class="glos-words">${glos.words.join(", ")}</div>
-          <div class="glos-translations">${glos.translations.join(", ")}</div>
-          <div class="glos-clues">${glos.clues.join(", ")}</div>
-          <div class="glos-translation-clues">${glos.translationClues.join(", ")}</div>
+          <div class="glos-words">${this.practiceList.wordsDomain} ${glos.words.join(", ")}</div>
+          <div class="glos-translations">${this.practiceList.translationDomain} ${glos.translations.join(", ")}</div>
+          <div class="glos-clues">${this.practiceList.wordsDomain}🔎 ${glos.clues.join(", ")}</div>
+          <div class="glos-translation-clues">${this.practiceList.translationDomain}🔎 ${glos.translationClues.join(", ")}</div>
           <button class="remove-button" data-index="${index}">Remove</button>
         `;
         this.glosListContainer.appendChild(glosItem);
@@ -81,6 +94,20 @@ class PracticeListController {
         this.renderGlosList();
       }
     }
+  }
+
+  handleDomainFormSubmit(event) {
+    event.preventDefault();
+    this.practiceList.wordsDomain = this.wordDomainInput.value.trim();
+    this.practiceList.translationDomain = this.translationDomainInput.value.trim();
+    this.savePracticeList();
+    this.renderDomainInputs();
+    this.renderGlosList()
+  }
+
+  renderDomainInputs() {
+    this.wordDomainInput.value = this.practiceList.wordsDomain;
+    this.translationDomainInput.value = this.practiceList.translationDomain;
   }
 
   clearInputs() {

@@ -73,9 +73,17 @@ class Glos {
 }
 
 class PracticeList {
-  constructor(name, gloses) {
+  constructor(name, gloses, wordsDomain = "🇸🇪", translationDomain = "🇬🇧") {
     if (typeof name !== "string") {
       throw new Error("Invalid argument. 'name' must be a string.");
+    }
+
+    if (typeof wordsDomain !== "string") {
+      throw new Error("Invalid argument. 'wordsDomain' must be a string.");
+    }
+
+    if (typeof translationDomain !== "string") {
+      throw new Error("Invalid argument. 'translationDomain' must be a string.");
     }
 
     if (!Array.isArray(gloses) || !gloses.every(glos => glos instanceof Glos)) {
@@ -84,6 +92,8 @@ class PracticeList {
 
     this.name = name;
     this.gloses = gloses;
+    this.wordsDomain = wordsDomain;
+    this.translationDomain = translationDomain;
   }
 }
 

@@ -38,8 +38,10 @@ function nextQuestion() {
 
     const glos = rehearsalList.gloses[lowestScoreIndex];
     isAnswerTranslation = knowledgeState.translationKnowledge.score < knowledgeState.knowledge.score;
-    const promptText = isAnswerTranslation ? "Översätt " + glos.words.join(", ") : "Översätt " + glos.translations.join(", ");
-    const inputPlaceholder = isAnswerTranslation ? "Skriv översättning" : "Skriv ordet";
+    const questionDomain = isAnswerTranslation ? currentRehearsal.practiceList.wordsDomain : currentRehearsal.practiceList.translationDomain;
+    const answerDomain = isAnswerTranslation ? currentRehearsal.practiceList.translationDomain : currentRehearsal.practiceList.wordsDomain;
+    const promptText = "Översätt " + questionDomain + (isAnswerTranslation ? glos.words.join(", ") : glos.translations.join(", "));
+    const inputPlaceholder =  answerDomain + (isAnswerTranslation ? "Skriv översättning " : "Skriv ordet");
 
     quizForm.innerHTML = "";
 
@@ -74,9 +76,9 @@ function handleResult(index, isAnswerTranslation, guess, isCorrect) {
             ? "<span class='correct'>Rätt!</span>"
             : `Fel! Du gissade <b class="incorrect">${guess}</b>`) +
         "<p>\n" +
-        glos.words.join(",") +
+        currentRehearsal.practiceList.wordsDomain + " " + glos.words.join(",") +
         " <i> översätts till </i>   " +
-        glos.translations.join(",") +
+        currentRehearsal.practiceList.translationDomain + " " + glos.translations.join(",") +
         "</p>";
     const nextButton = document.createElement("button");
     nextButton.textContent = "Nästa (Och acceptera svaret)";

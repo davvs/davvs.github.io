@@ -3,21 +3,37 @@ class PersistenceManager {
     // No need for a storage key
   }
 
-  savePracticeList(practiceList) {
-    const key = `PracticeList-${practiceList.name}`;
-    const serializedList = JSON.stringify(practiceList);
-    localStorage.setItem(key, serializedList);
-  }
-
   getPracticeListByName(name) {
-    const key = `PracticeList-${name}`;
-    const serializedList = localStorage.getItem(key);
-    if (serializedList) {
-      const parsedList = JSON.parse(serializedList);
-      const gloses = parsedList.gloses.map((glosData) => new Glos(glosData._words, glosData._translations, glosData._clues, glosData._translationClues));
-      return new PracticeList(parsedList.name, gloses);
+    const practiceLists = this.getPracticeLists();
+    const practiceListData = practiceLists.find(list => list.name === name);
+    if (practiceListData) {
+      const { name, gloses, wordsDomain, translationDomain } = practiceListData;
+      const parsedGloses = gloses.map(glosData => {
+        const { _words, _translations, _clues, _translationClues } = glosData;
+        return new Glos(_words, _translations, _clues, _translationClues);
+      });
+      return new PracticeList(name, parsedGloses, wordsDomain, translationDomain);
     }
     return null;
+  }
+
+  getPracticeLists() {
+    const practiceListsJSON = localStorage.getItem("practiceLists");
+    if (practiceListsJSON) {
+      return JSON.parse(practiceListsJSON);
+    }
+    return [];
+  }
+
+  savePracticeList(practiceList) {
+    const practiceLists = this.getPracticeLists();
+    const existingIndex = practiceLists.findIndex(list => list.name === practiceList.name);
+    if (existingIndex !== -1) {
+      practiceLists[existingIndex] = practiceList;
+    } else {
+      practiceLists.push(practiceList);
+    }
+    localStorage.setItem("practiceLists", JSON.stringify(practiceLists));
   }
 
 
