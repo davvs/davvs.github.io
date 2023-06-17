@@ -3,10 +3,15 @@ class PersistenceManager {
     // No need for a storage key
   }
 
+  getListKey(name) {
+    return `PracticeList-${name}`;
+  }
+
   getPracticeListByName(name) {
-    const practiceLists = this.getPracticeLists();
-    const practiceListData = practiceLists.find(list => list.name === name);
-    if (practiceListData) {
+    const key = this.getListKey(name);
+    const practiceListJSON = localStorage.getItem(key);
+    if (practiceListJSON) {
+      const practiceListData = JSON.parse(practiceListJSON);
       const { name, gloses, wordsDomain, translationDomain } = practiceListData;
       const parsedGloses = gloses.map(glosData => {
         const { _words, _translations, _clues, _translationClues } = glosData;
@@ -18,34 +23,46 @@ class PersistenceManager {
   }
 
   getPracticeLists() {
-    const practiceListsJSON = localStorage.getItem("practiceLists");
-    if (practiceListsJSON) {
-      return JSON.parse(practiceListsJSON);
+    const practiceListNamesJSON = localStorage.getItem("LocalPracticeListNames");
+    if (practiceListNamesJSON) {
+      const practiceListNames = JSON.parse(practiceListNamesJSON);
+      return practiceListNames.map(name => this.getPracticeListByName(name));
     }
     return [];
   }
 
   savePracticeList(practiceList) {
-    const practiceLists = this.getPracticeLists();
-    const existingIndex = practiceLists.findIndex(list => list.name === practiceList.name);
-    if (existingIndex !== -1) {
-      practiceLists[existingIndex] = practiceList;
+    const key = this.getListKey(practiceList.name);
+    const serializedList = JSON.stringify(practiceList);
+    localStorage.setItem(key, serializedList);
+
+    const practiceListNamesJSON = localStorage.getItem("LocalPracticeListNames");
+    if (practiceListNamesJSON) {
+      const practiceListNames = JSON.parse(practiceListNamesJSON);
+      if (!practiceListNames.includes(practiceList.name)) {
+        practiceListNames.push(practiceList.name);
+      }
+      localStorage.setItem("LocalPracticeListNames", JSON.stringify(practiceListNames));
     } else {
-      practiceLists.push(practiceList);
+      localStorage.setItem("LocalPracticeListNames", JSON.stringify([practiceList.name]));
     }
-    localStorage.setItem("practiceLists", JSON.stringify(practiceLists));
   }
 
-
   updatePracticeList(name, updatedPracticeList) {
-    const key = `PracticeList-${name}`;
+    const key = this.getListKey(name);
     const serializedList = JSON.stringify(updatedPracticeList);
     localStorage.setItem(key, serializedList);
   }
 
   deletePracticeList(name) {
-    const key = `PracticeList-${name}`;
+    const key = this.getListKey(name);
     localStorage.removeItem(key);
+
+    const practiceListNamesJSON = localStorage.getItem("LocalPracticeListNames");
+    if (practiceListNamesJSON) {
+      const practiceListNames = JSON.parse(practiceListNamesJSON);
+      const updatedPracticeListNames = practiceListNames.filter(practiceListName => practiceListName !== name);
+      localStorage.setItem("LocalPracticeListNames", JSON.stringify(updatedPracticeListNames));
+    }
   }
 }
-

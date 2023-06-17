@@ -129,28 +129,48 @@ class Rehearsal {
         }
     }
 
-    debugPrint() {
-        console.log("Rehearsal Data:");
+    debugPrint(debugDataDiv) {
+        let debugContent = "<table>";
+        debugContent += "<tr><th>Glos Index</th><th>Glos</th><th>Translations</th><th>Knowledge Score</th><th>Translation Knowledge Score</th><th>Recent Guesses</th><th>Recent Translation Guesses</th></tr>";
 
         this.knowledgeStates.forEach((state, index) => {
             const glos = this.practiceList.gloses[index];
 
-            console.log(`Glos Index: ${index}`);
-            console.log(`Glos: ${glos.words.join(", ")}`);
-            console.log(`Translations: ${glos.translations.join(", ")}`);
-            console.log(`Knowledge Score: ${state.knowledge.score}`);
-            console.log(`TranslationKnowledge Score: ${state.translationKnowledge.score}`);
-            console.log("Recent translation Guesses:");
+            debugContent += `<tr>`;
+            debugContent += `<td>${index}</td>`;
+            debugContent += `<td>${glos.words.join(", ")}</td>`;
+            debugContent += `<td>${glos.translations.join(", ")}</td>`;
+            debugContent += `<td>${state.knowledge.score}</td>`;
+            debugContent += `<td>${state.translationKnowledge.score}</td>`;
+
+            debugContent += "<td>";
             state.knowledge.recentResponses.forEach((response, i) => {
-                console.log(`Guess ${i + 1}: ${response.guess} - ${response.correct ? "Correct" : "Incorrect"}`);
+                const colorClass = response.correct ? "correct" : "incorrect";
+                debugContent += `<span class="${colorClass}">${response.guess}</span>`;
+                if (i !== state.knowledge.recentResponses.length - 1) {
+                    debugContent += ", ";
+                }
             });
-            console.log("Recent reversed Guesses:");
+            debugContent += "</td>";
+
+            debugContent += "<td>";
             state.translationKnowledge.recentResponses.forEach((response, i) => {
-                console.log(`Guess on reverse ${i + 1}: ${response.guess} - ${response.correct ? "Correct" : "Incorrect"}`);
+                const colorClass = response.correct ? "correct" : "incorrect";
+                debugContent += `<span class="${colorClass}">${response.guess}</span>`;
+                if (i !== state.translationKnowledge.recentResponses.length - 1) {
+                    debugContent += ", ";
+                }
             });
-            console.log("-------------------");
+            debugContent += "</td>";
+
+            debugContent += `</tr>`;
         });
+
+        debugContent += "</table>";
+        debugDataDiv.innerHTML = debugContent;
     }
+
+
 
 }
 

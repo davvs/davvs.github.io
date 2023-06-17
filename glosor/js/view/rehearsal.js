@@ -10,6 +10,8 @@ const quizForm = document.getElementById("quizForm");
 const messageDiv = document.getElementById("message");
 const debugButton = document.getElementById("debugButton");
 
+const debugDataDiv = document.getElementById("debugData");
+
 let lowestScoreIndex;
 let isAnswerTranslation;
 let guess;
@@ -28,8 +30,13 @@ startForm.addEventListener("submit", (event) => {
 });
 
 debugButton.addEventListener("click", () => {
-    currentRehearsal.debugPrint();
+    updateDebugData();
 });
+
+function updateDebugData() {
+    debugDataDiv.innerHTML = "";
+    currentRehearsal.debugPrint(debugDataDiv);
+}
 
 function nextQuestion() {
     const avoidRecentList = currentRehearsal.recentIndices.slice(-currentRehearsal.avoidRepeatFrequency);
@@ -132,6 +139,7 @@ function handleResult(index, isAnswerTranslation, guess, isCorrect) {
         } else {
             nextQuestion();
         }
+        updateDebugData();
     });
 
     quizForm.innerHTML = "";
