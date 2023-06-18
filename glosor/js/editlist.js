@@ -73,8 +73,21 @@ class PracticeListController {
     event.preventDefault();
     const words = this.wordsInput.value.trim().split(",").map(word => word.trim());
     const translations = this.translationsInput.value.trim().split(",").map(translation => translation.trim());
-    const clues = this.cluesInput.value.trim().split(",").map(clue => clue.trim());
-    const translationClues = this.translationCluesInput.value.trim().split(",").map(clue => clue.trim());
+    const trimmedClues = this.cluesInput.value.trim();
+    var clues;
+    if (trimmedClues.length > 0) {
+      clues = trimmedClues.split(",").map(clue => clue.trim());
+    } else {
+      clues = [];
+    }
+    const trimmedTranslationClues = this.translationCluesInput.value.trim();
+    var translationClues;
+    if (trimmedTranslationClues.length > 0) {
+      translationClues = trimmedTranslationClues.split(",").map(clue => clue.trim());
+    } else {
+      translationClues = [];
+
+    }
     if (words.length > 0 && translations.length > 0) {
       const glos = new Glos(words, translations, clues, translationClues);
       this.practiceList.gloses.push(glos);

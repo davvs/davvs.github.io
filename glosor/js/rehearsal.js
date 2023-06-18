@@ -27,6 +27,19 @@ class Rehearsal {
         });
     }
 
+    getRemainingGlosCount() {
+        let remainingGlosCount = 0;
+
+        this.knowledgeStates.forEach((state) => {
+            const knowledgeScore = Math.min(state.knowledge.score, state.translationKnowledge.score);
+            if (knowledgeScore < 100) {
+                remainingGlosCount++;
+            }
+        });
+
+        return remainingGlosCount;
+    }
+
     initializeKnowledgeState(initialScore) {
         return {
             recentResponses: [],
@@ -106,7 +119,7 @@ class Rehearsal {
 
     getLowestScoreIndex(avoidRecentList = []) {
         let lowestScoreIndex = null;
-        let lowestScore = 100;
+        let lowestScore = 1000;
 
         this.knowledgeStates.forEach((state, index) => {
             if (!avoidRecentList.includes(index)) {

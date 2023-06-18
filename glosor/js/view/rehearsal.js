@@ -39,8 +39,17 @@ function updateDebugData() {
 }
 
 function nextQuestion() {
-    const avoidRecentList = currentRehearsal.recentIndices.slice(-currentRehearsal.avoidRepeatFrequency);
+
+    const rem = currentRehearsal.getRemainingGlosCount() - 1
+    const avoidCt = Math.min(rem, currentRehearsal.avoidRepeatFrequency);
+    const avoidRecentList = currentRehearsal.recentIndices.slice(-avoidCt);
     lowestScoreIndex = currentRehearsal.getLowestScoreIndex(avoidRecentList);
+    console.log("lowestScoreIndex " + lowestScoreIndex);
+    if (lowestScoreIndex === null) {
+
+        lowestScoreIndex = currentRehearsal.recentIndices.slice(-1, 1)
+        console.log("new saved lowestScoreIndex " + lowestScoreIndex);
+    }
     const knowledgeState = currentRehearsal.knowledgeStates.get(lowestScoreIndex);
 
     const glos = rehearsalList.gloses[lowestScoreIndex];
@@ -134,7 +143,8 @@ function handleResult(index, isAnswerTranslation, guess, isCorrect) {
         currentRehearsal.acceptResult(lowestScoreIndex, isAnswerTranslation, guess, isCorrect);
         currentRehearsal.updateRecentIndices(lowestScoreIndex);
         messageDiv.innerHTML = "";
-        if (currentRehearsal.getLowestScoreIndex(currentRehearsal.recentIndices.slice(-currentRehearsal.avoidRepeatFrequency)) === null) {
+        rem = currentRehearsal.getRemainingGlosCount();
+        if (rem === 0) {
             showCompletionMessage();
         } else {
             nextQuestion();
