@@ -18,8 +18,19 @@
     <label for="maxRecentResponses">Krävda antal rätt i rad för att ett översättning ska tolkas som kunskap</label>
     <input type="number" id="maxRecentResponses" min="1" value="4">
     <br/>
+    <label id="translationsLabel" for="translationsCheckbox">TEST</label>
+    <input type="checkbox" id="translationsCheckbox">
+    <br/>
+    <label id="reversedTranslationsLabel" for="reversedTranslationsCheckbox">ASDF</label>
+    <input type="checkbox" id="reversedTranslationsCheckbox">
+    <br/>
+    <div id="glosesListContainer">
+      <ul id="gloses"></ul>
+    </div>
     <button type="submit">Starta glosförhör</button>
   </form>
+
+
   <div id="message">Klicka på "Starta glosförhör" för att börja.</div>
   <form id="quizForm"></form>
   <button id="debugButton">Debug</button>
@@ -30,7 +41,7 @@
 <script src="js/script.js"></script>
 <script src="js/glostypes.js"></script>
 <script src="js/persistencemanager.js"></script>
-<script src="js/rehearsal.js"></script>
-<script src="js/view/rehearsal.js"></script>
+<script src="js/view/rehearsalview.js"></script>
 </body>
 </html>
+
