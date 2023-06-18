@@ -4,6 +4,7 @@ const localList = urlParams.get("localList");
 // Load practice list from persistence manager
 const persistenceManager = new PersistenceManager();
 const currentPracticeList = persistenceManager.getPracticeListByName(localList);
+currentRehearsal = null;
 
 // Function to create a checkbox element
 function createCheckbox(id, name, value) {
@@ -64,11 +65,11 @@ function populateGlosesList() {
 
     // Update translation domain in the checkbox label
     const translationsLabel = document.getElementById("translationsLabel");
-    translationsLabel.textContent = `Fråga från ${currentPracticeList.wordsDomain} ➡ ${currentPracticeList.translationDomain}`;
+    translationsLabel.textContent = `Frågor från ${currentPracticeList.wordsDomain} ➡ ${currentPracticeList.translationDomain}`;
 
     // Update translation domain in the reversed checkbox label
     const reversedTranslationsLabel = document.getElementById("reversedTranslationsLabel");
-    reversedTranslationsLabel.textContent = `Fråga från ${currentPracticeList.translationDomain} ➡ ${currentPracticeList.wordsDomain}`;
+    reversedTranslationsLabel.textContent = `Omvända frågor från ${currentPracticeList.translationDomain} ➡ ${currentPracticeList.wordsDomain}`;
 }
 
 // Function to handle form submission and start the rehearsal
@@ -78,6 +79,7 @@ function startRehearsal(event) {
     // Get the values from the form
     const avoidRepeatFrequency = document.getElementById("avoidRepeatFrequency").value;
     const maxRecentResponses = document.getElementById("maxRecentResponses").value;
+    const initialGlosScore = 50;
     const translationsCheckbox = document.getElementById("translationsCheckbox").checked;
     const reversedTranslationsCheckbox = document.getElementById("reversedTranslationsCheckbox").checked;
 
@@ -86,18 +88,47 @@ function startRehearsal(event) {
     console.log("Max Recent Responses:", maxRecentResponses);
     console.log("Translations Checkbox:", translationsCheckbox);
     console.log("Reversed Translations Checkbox:", reversedTranslationsCheckbox);
+    if (!translationsCheckbox && !reversedTranslationsCheckbox) {
+        alert("antingen fråga, omvänd fråga eller båda måste vara ibockade!")
+        return;
+    }
 
     // Get the selected lines checkboxes
     const selectedLines = [];
     const lineCheckboxes = document.querySelectorAll('input[name="lineCheckbox"]:checked');
+
+    glosCards = [];
     lineCheckboxes.forEach((checkbox) => {
         const glosIndex = parseInt(checkbox.value);
         const glos = currentPracticeList.gloses[glosIndex];
         selectedLines.push(glos);
+
+        if (translationsCheckbox) {
+            //use standard translation
+            for (word in glos.words) {
+                glosCard = new GlosCard(word, glos.translations, glos.clues,
+                    currentPracticeList.wordsDomain, currentPracticeList.translationDomain,
+                    initialGlosScore);
+                glosCards.push(glosCard)
+            }
+        }
+        if (reversedTranslationsCheckbox) {
+            //use reversed translation
+            for (translation in glos.translations) {
+                glosCard = new GlosCard(translation, glos.words, glos.translationClues,
+                    currentPracticeList.translationDomain, currentPracticeList.wordsDomain,
+                    initialGlosScore);
+                glosCards.push(glosCard)
+            }
+        }
     });
 
-    // Start the rehearsal with the selected lines
-    console.log("Selected Lines:", selectedLines);
+    if (glosCards.length <= 0) {
+        alert("Inga glosor ibockade!")
+        return;
+    }
+
+    currentRehearsal = new Rehearsal(glosCards);
 }
 
 // Add event listener to the form submit button
