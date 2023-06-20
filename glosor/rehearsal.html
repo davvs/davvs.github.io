@@ -19,19 +19,19 @@
     <input type="number" id="maxRecentResponses" min="1" value="4">
     <br/>
     <label id="translationsLabel" for="translationsCheckbox">TEST</label>
-    <input type="checkbox" id="translationsCheckbox">
+    <input type="checkbox" id="translationsCheckbox" checked="checked"/>
     <br/>
     <label id="reversedTranslationsLabel" for="reversedTranslationsCheckbox">ASDF</label>
-    <input type="checkbox" id="reversedTranslationsCheckbox">
+    <input type="checkbox" id="reversedTranslationsCheckbox" checked="checked"/>
     <br/>
     <div id="glosesListContainer">
       <ul id="gloses"></ul>
     </div>
     <button type="submit">Starta glosförhör</button>
+    <div id="message">Klicka på "Starta glosförhör" för att börja.</div>
   </form>
 
 
-  <div id="message">Klicka på "Starta glosförhör" för att börja.</div>
   <form id="quizForm"></form>
   <button id="debugButton">Debug</button>
 
@@ -41,6 +41,7 @@
 <script src="js/script.js"></script>
 <script src="js/glostypes.js"></script>
 <script src="js/persistencemanager.js"></script>
+<script src="js/rehearsal.js"></script>
 <script src="js/view/rehearsalview.js"></script>
 </body>
 </html>
