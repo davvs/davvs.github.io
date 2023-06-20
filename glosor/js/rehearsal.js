@@ -73,11 +73,20 @@ class Rehearsal {
     }
 
     finishAnswer() {
-        if (this.currentGlosCard.recentGuesses.length >= 3) {
-            let cap = 2; //TODO check the config 3->2
+
+        this.recentGlosIndices.push(this.currentGlosCard.glosIndex);
+        this.recentGlosIndices = this.recentGlosIndices.slice(-(this.avoidRepeatFrequency-1));
+        console.log("Recent Glos Indices:", JSON.stringify(this.recentGlosIndices)); // Print statement
+
+        this.lastGlosCardIndex = this.currentGlosCardIndex;
+
+        console.log("Last glos card index:", this.lastGlosCardIndex);
+
+        this.currentGlosCard.recentGuesses.push(this.currentGuess); // Append the new element
+        if (this.currentGlosCard.recentGuesses.length > this.maxRecentResponses) {
+            let cap = this.maxRecentResponses;
             this.currentGlosCard.recentGuesses = this.currentGlosCard.recentGuesses.slice(-cap); // Keep the last 3 elements
         }
-        this.currentGlosCard.recentGuesses.push(this.currentGuess); // Append the new element
         this.currentGlosCard.knowledgeScore = this.calculateKnowledgeScore(this.currentGlosCard)
 
         this.currentGuess = null;
@@ -92,6 +101,9 @@ class Rehearsal {
             this.finishAnswer();
         }
 
+        if (this.isRehearsalFinished()) {
+            return null;
+        }
         let currentGlosCardWithIndex = this.getNextGlosCardAux();
         this.currentGlosCard = currentGlosCardWithIndex.card;
         this.currentGlosCardIndex = currentGlosCardWithIndex.index;
@@ -104,17 +116,20 @@ class Rehearsal {
     }
 
     getNextGlosCardAux() {
-        const N = this.avoidRepeatFrequency;
+
+        //console.log(`finding new card: recentGlosIndices:${JSON.stringify(this.recentGlosIndices)}`)
         const eligibleCards = this.glosCards
             .map((card, index) => ({ card, index }))
             .filter(({ card, index }) => {
-                return card.knowledgeScore < 100 && !this.recentGlosIndices.slice(-N + 1).includes(index);
+                return card.knowledgeScore < 100 && !this.recentGlosIndices.includes(card.glosIndex);
             });
 
-        if (eligibleCards.length >= N) {
+        console.log(`eligableCards: ${JSON.stringify(eligibleCards)}`)
+        if (eligibleCards.length > 0) {
             eligibleCards.sort((a, b) => a.card.knowledgeScore - b.card.knowledgeScore);
             return eligibleCards[0];
         } else {
+            console.log(`No eligable cards! only avoiding glosCardIndex:${this.lastGlosCardIndex}`)
             const remainingCards = this.glosCards
                 .filter((card, index) => index !== this.lastGlosCardIndex)
                 .map((card, index) => ({ card, index }));
@@ -132,5 +147,9 @@ class Rehearsal {
         }
         const correctPct = (correctCount / this.maxRecentResponses) * 100;
         return correctPct;
+    }
+
+    isRehearsalFinished() {
+        return this.glosCards.every((glosCard) => glosCard.knowledgeScore >= 100);
     }
 }

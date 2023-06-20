@@ -138,14 +138,23 @@ function startRehearsal(event) {
     startForm.remove()
     prepareNextGlosCard()
 
-
 }
+function rehearsalFinished() {
+    quizForm.innerHTML = "";
 
+    const finishedDiv = document.createElement("div");
+    finishedDiv.textContent = "Allt klart! Nu kan du alla ord verkar det som!";
+    quizForm.appendChild(finishedDiv);
+}
 
 function prepareNextGlosCard() {
     quizForm.innerHTML = "";
     let nextCard = currentRehearsal.getNextGlosCard();
-    console.log("Card:" + nextCard);
+    if (nextCard == null) {
+        rehearsalFinished();
+        return;
+    }
+    console.log("Glos index:" + nextCard.glosIndex);
     console.log("Card index:" + currentRehearsal.currentGlosCardIndex);
 
 
@@ -191,33 +200,58 @@ function prepareNextGlosCard() {
 
 
     const overruleAsCorrectButton = document.createElement("button");
-    overruleAsCorrectButton.textContent = "Overrule as Correct";
+    overruleAsCorrectButton.textContent = "Overrule as Correct (Ctrl+a)";
     overruleAsCorrectButton.addEventListener("click", overruleAsCorrect);
     answerForm.appendChild(overruleAsCorrectButton);
 
     const overruleAsIncorrectButton = document.createElement("button");
-    overruleAsIncorrectButton.textContent = "Overrule as Incorrect";
+    overruleAsIncorrectButton.textContent = "Overrule as Incorrect (Ctrl+e)";
     overruleAsIncorrectButton.addEventListener("click", overruleAsIncorrect);
     answerForm.appendChild(overruleAsIncorrectButton);
 
 
-    if (debugging) {
-        const debugText = document.createElement("div");
-        debugText.textContent = "glosCardIndex:" + currentRehearsal.currentGlosCardIndex + ": " +
-            JSON.stringify(currentRehearsal.currentGlosCard);
-        quizForm.appendChild(debugText);
-    }
+    // if (debugging) {
+    //     const debugText = document.createElement("div");
+    //     debugText.textContent = "glosCardIndex:" + currentRehearsal.currentGlosCardIndex + ": " +
+    //         JSON.stringify(currentRehearsal.currentGlosCard);
+    //     quizForm.appendChild(debugText);
+    // }
 
     quizForm.appendChild(answerForm);
+    answerInput.focus();
+
+// Attach the event listener to the document
+    document.addEventListener("keydown", keydownListener);
 
     if (debugging) {
         printDebugData();
     }
 }
 
+
+function keydownListener(event) {
+    if (event.ctrlKey && (event.key === "r" || event.key === "a")) {
+        overruleAsCorrect(event);
+    }
+
+    if (event.ctrlKey && (event.key === "f" || event.key === "e")) {
+        overruleAsIncorrect(event);
+    }
+
+    if (event.ctrlKey && (event.key === "c")) {
+        getClue(event);
+    }
+}
+
+document.addEventListener("keydown", keydownListener);
+
+// Later, to remove the event listener
+// document.removeEventListener("keydown", keydownListener);
+
 function showNextQuestionButton() {
     const nextQuestionButton = document.getElementById("nextQuestionButton")
     nextQuestionButton.style.display = "block";
+    nextQuestionButton.focus();
 }
 
 function nextQuestion(event) {
@@ -255,6 +289,7 @@ function answerQuestion(event) {
 
 
     showNextQuestionButton();
+
 }
 
 function getClue(event) {
