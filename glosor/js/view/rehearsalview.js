@@ -172,7 +172,7 @@ function prepareNextGlosCard() {
     const answerButton = document.createElement("button");
     answerButton.setAttribute("id", "answerButton");
     answerButton.textContent = "Answer";
-    answerButton.addEventListener("click", answerQuestion);
+    answerButton.addEventListener("click", answerQuestionButton);
     answerForm.appendChild(answerButton);
 
     const clueButton = document.createElement("button");
@@ -262,13 +262,15 @@ function nextQuestion(event) {
     prepareNextGlosCard()
 }
 
-
-function answerQuestion(event) {
+function answerQuestionButton(event) {
     event.preventDefault();
     const answerInput = document.querySelector("input[type='text']");
     const answer = answerInput.value;
+    answerQuestion(answer);
+}
 
-    const resultDiv = document.getElementById("resultDiv")
+function answerQuestion(answer) {
+
     isCorrect = currentRehearsal.submitAnswer(answer);
     currentRehearsal.currentQuestionWasCorrect = isCorrect
 
@@ -279,14 +281,17 @@ function answerQuestion(event) {
         comment = "Du använde ledtrådar, så frågan kommer att komma igen.";
     }
 
+    const resultDiv = document.getElementById("resultDiv")
     resultDiv.innerHTML = `Du svarade <span id="answer">${answer}</span> vilket är <span style="color: ${isCorrect ? 'green' : 'red'};">${isCorrect ? 'rätt' : 'fel'}</span> ${comment}`;
 
     const clueButton = document.getElementById("clueButton")
     const answerButton = document.getElementById("answerButton")
-    clueButton.remove();
-    answerButton.remove();
-    answerInput.remove();
 
+    if (clueButton !== null) {
+        clueButton.remove();
+        answerButton.remove();
+    }
+    //answerInput.remove();
 
     showNextQuestionButton();
 
@@ -305,14 +310,13 @@ function getClue(event) {
 
 function overruleAsCorrect(event) {
     event.preventDefault();
-    // Handle the logic for overruling as correct
-    console.log("Overrule as Correct");
+    currentRehearsal.currentQuestionUsedClue = false;
+    answerQuestion(currentRehearsal.currentGlosCard.answers[0]);
 }
 
 function overruleAsIncorrect(event) {
     event.preventDefault();
-    // Handle the logic for overruling as incorrect
-    console.log("Overrule as Incorrect");
+    answerQuestion("??????");
 }
 
 
