@@ -1,5 +1,5 @@
-.word, .translation{
-  margin-right: 8px; /* Adds a small space between word-item spans */
+.word, .translation {
+  margin-right: 8px;
 }
 
 .background-overlay {
@@ -8,7 +8,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.2); /* Change the alpha value for desired transparency */
+  background-color: rgba(0, 0, 0, 0.2);
   z-index: -1;
   background: url("images/fountain_of_knowledge_dark.png") center center;
   background-size: cover;
@@ -28,17 +28,15 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
+  padding: 5px;
 }
 
 body {
   font-family: Arial, sans-serif;
-  line-height: 1.5;
 }
 
-
 .content {
-  background-color: rgba(255, 255, 255, 0.75); /* Adjust the alpha value as desired for darkness */
+  background-color: rgba(255, 255, 255, 0.75);
   padding: 20px;
   color: #000;
   margin-top: 4em;
@@ -53,7 +51,7 @@ nav ul {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex; /* Display the links side by side */
+  display: flex;
 }
 
 nav li {
@@ -67,36 +65,26 @@ nav a {
 
 @media screen and (max-width: 600px) {
   .header-container {
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
   }
 
   h1 {
-    font-size: 20px;
-    margin-bottom: 10px;
+    display: none;
   }
 
   nav ul {
-    flex-direction: column;
-    margin-top: 10px;
+    flex-direction: row;
   }
 
   nav li {
-    margin-right: 0;
-    margin-bottom: 5px;
+    margin-right: 1em;
   }
 }
 
-h1 {
-  margin: 0;
-  font-size: 24px;
-}
-
 ul.nav-links {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
+  overflow-x: auto;
+  flex-wrap: nowrap;
 }
 
 ul.nav-links li {
