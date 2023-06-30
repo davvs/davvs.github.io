@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practice List Editor</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="background-overlay"></div>
+<header></header>
+<div class="content">
+  <h1>Gloslista</h1>
+  <button id="exportLink">Exportera som länk</button>
+  <button id="exportQr">Exportera som QR</button>
+  <div id="exportData">
+    Export data here
+  </div>
+</div>
+
+<!-- Add the Protocol Buffers JavaScript library hosted by Google -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
+<script src="https://unpkg.com/protobufjs@7.2.3/dist/protobuf.min.js"></script>
+
+<!-- Your other JavaScript files -->
+<script src="js/script.js"></script>
+<script src="js/glostypes.js"></script>
+<script src="js/persistencemanager.js"></script>
+<script src="js/exporter.js"></script>
+<script src="js/export.js"></script>
+</body>
+</html>
+

@@ -28,6 +28,7 @@ function renderPracticeLists() {
       <button class="removeButton" data-index="${index}">Ta bort</button>
       <button class="changeNameButton" data-index="${index}">Ändra namn</button>
       <button class="copyButton" data-index="${index}">Kopiera</button>
+      <button class="exportButton" data-index="${index}">Exportera</button>
     `;
     practiceListsContainer.appendChild(listItem);
   });
@@ -120,6 +121,10 @@ practiceListsContainer.addEventListener("click", function(event) {
   } else if (target.classList.contains("copyButton")) {
     const index = target.getAttribute("data-index");
     copyPracticeList(index);
+  } else if (target.classList.contains("exportButton")) {
+    const index = target.getAttribute("data-index");
+    const name = AllPracticeLists[index];
+    window.open(`export.html?localList=${encodeURIComponent(name)}`, "_self");
   }
 });
 

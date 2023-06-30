@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+message Glos {
+  repeated string words = 1;
+  repeated string translations = 2;
+  repeated string clues = 3;
+  repeated string translationClues = 4;
+}
+
+message PracticeList {
+  string name = 1;
+  string wordsDomain = 2;
+  string translationDomain = 3;
+  repeated Glos gloses = 4;
+}
+

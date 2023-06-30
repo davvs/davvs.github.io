@@ -19,7 +19,10 @@ class PersistenceManager {
       });
       return new PracticeList(name, parsedGloses, wordsDomain, translationDomain);
     }
-    return null;
+
+    const practiceList = new PracticeList(practiceListName, []);
+    this.savePracticeList(practiceList);
+    return practiceList;
   }
 
   getPracticeLists() {

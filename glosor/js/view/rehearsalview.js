@@ -280,9 +280,15 @@ function answerQuestion(answer) {
     if (usedClue) {
         comment = "Du använde ledtrådar, så frågan kommer att komma igen.";
     }
+    let correctionSection = "";
+    if (!isCorrect) {
+        let answersCollection = currentRehearsal.currentGlosCard.answers.join(",")
+        correctionSection = `<p>Rätt svar är <strong>${answersCollection}</strong></p>`;
+    }
+
 
     const resultDiv = document.getElementById("resultDiv")
-    resultDiv.innerHTML = `Du svarade <span id="answer">${answer}</span> vilket är <span style="color: ${isCorrect ? 'green' : 'red'};">${isCorrect ? 'rätt' : 'fel'}</span> ${comment}`;
+    resultDiv.innerHTML = `Du svarade <span id="answer">${answer}</span> vilket är <span style="color: ${isCorrect ? 'green' : 'red'};">${isCorrect ? 'rätt' : 'fel'}</span>${correctionSection} ${comment}`;
 
     const clueButton = document.getElementById("clueButton")
     const answerButton = document.getElementById("answerButton")
