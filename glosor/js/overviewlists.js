@@ -8,7 +8,7 @@ function saveAllPracticeLists() {
 
 // Function to load AllPracticeLists from local storage
 function loadAllPracticeLists() {
-  const practiceLists = localStorage.getItem("LocalPracticeListNames");
+  const practiceLists = persistenceManager.getPracticeLists();
   if (practiceLists) {
     AllPracticeLists = JSON.parse(practiceLists);
   }
@@ -28,7 +28,7 @@ function renderPracticeLists() {
       <button class="removeButton" data-index="${index}">Ta bort</button>
       <button class="changeNameButton" data-index="${index}">Ändra namn</button>
       <button class="copyButton" data-index="${index}">Kopiera</button>
-      <button class="exportButton" data-index="${index}">Exportera</button>
+      <button class="exportButton" data-index="${index}">Dela</button>
     `;
     practiceListsContainer.appendChild(listItem);
   });

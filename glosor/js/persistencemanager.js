@@ -26,12 +26,8 @@ class PersistenceManager {
   }
 
   getPracticeLists() {
-    const practiceListNamesJSON = localStorage.getItem("LocalPracticeListNames");
-    if (practiceListNamesJSON) {
-      const practiceListNames = JSON.parse(practiceListNamesJSON);
-      return practiceListNames.map(name => this.getPracticeListByName(name));
-    }
-    return [];
+    const practiceListNames = localStorage.getItem("LocalPracticeListNames");
+    return JSON.parse(practiceListNames);
   }
 
   savePracticeList(practiceList) {

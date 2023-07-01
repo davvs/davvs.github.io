@@ -10,23 +10,27 @@
 <div class="background-overlay"></div>
 <header></header>
 <div class="content">
-  <h1>Dela gloslista</h1>
-  <div id="exportData">
-    Export data here
-  </div>
+  <h2>Importera glosor</h2>
+  <form id="importGlosesForm">
+    <label>Importera glosor</label>
+    <br/>
+    <textarea id="importInput" rows="4" cols="120" placeholder=""></textarea>
+    <br/>
+    <button type="submit">Import gloses</button>
+  </form>
+  <div id="importedList"></div>
 </div>
 
 <!-- Add the Protocol Buffers JavaScript library hosted by Google -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://unpkg.com/protobufjs@7.2.3/dist/protobuf.min.js"></script>
 
 <!-- Your other JavaScript files -->
 <script src="js/script.js"></script>
 <script src="js/glostypes.js"></script>
 <script src="js/persistencemanager.js"></script>
 <script src="js/exporter.js"></script>
-<script src="js/qrcode.js"></script>
-<script src="js/export.js"></script>
+<script src="js/view/importview.js"></script>
 </body>
 </html>
 

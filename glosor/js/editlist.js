@@ -12,11 +12,14 @@ class PracticeListController {
     this.wordDomainInput = document.getElementById("wordDomain");
     this.translationDomainInput = document.getElementById("translationDomain");
     this.rehearsalButton = document.getElementById("rehearsalButton");
+    this.importInput = document.getElementById("importInput");
+    this.importGlosesForm = document.getElementById("importGlosesForm");
 
     this.rehearsalButton.addEventListener("click", this.handleRehearsalButtonClick.bind(this));
     this.addGlosForm.addEventListener("submit", this.handleAddGlos.bind(this));
     this.glosListContainer.addEventListener("click", this.handleRemoveButtonClick.bind(this));
     this.domainForm.addEventListener("submit", this.handleDomainFormSubmit.bind(this));
+    this.importGlosesForm.addEventListener("submit", this.importGlosesFormSubmit.bind(this));
 
     this.loadPracticeList();
     this.renderGlosList();
@@ -64,8 +67,10 @@ class PracticeListController {
         `;
         this.glosListContainer.appendChild(glosItem);
       });
+      document.querySelector("h1").textContent = `Gloslista ${this.practiceList.name}`;
     } else {
       this.glosListContainer.innerHTML = "<p>No gloses found.</p>";
+      document.querySelector("h1").textContent = "Gloslista";
     }
   }
 
@@ -107,6 +112,13 @@ class PracticeListController {
         this.renderGlosList();
       }
     }
+  }
+
+  importGlosesFormSubmit(event) {
+    event.preventDefault();
+    let importText = this.importInput.value.trim();
+    console.log(importText);
+    console.log("TODO actually import it\n" + importText);
   }
 
   handleDomainFormSubmit(event) {

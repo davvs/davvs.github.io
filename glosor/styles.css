@@ -35,6 +35,17 @@ body {
   font-family: Arial, sans-serif;
 }
 
+.error {
+  color: rgb(255, 0, 0);
+}
+
+#exportData a,
+#exportData span,
+#exportData button {
+  display: block;
+  margin: 0.3em;
+}
+
 .content {
   background-color: rgba(255, 255, 255, 0.75);
   padding: 20px;
