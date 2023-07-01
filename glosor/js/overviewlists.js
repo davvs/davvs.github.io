@@ -10,7 +10,7 @@ function saveAllPracticeLists() {
 function loadAllPracticeLists() {
   const practiceLists = persistenceManager.getPracticeLists();
   if (practiceLists) {
-    AllPracticeLists = JSON.parse(practiceLists);
+    AllPracticeLists = practiceLists;
   }
 }
 
