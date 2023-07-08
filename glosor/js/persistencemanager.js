@@ -12,15 +12,27 @@ class PersistenceManager {
     const practiceListJSON = localStorage.getItem(key);
     if (practiceListJSON) {
       const practiceListData = JSON.parse(practiceListJSON);
-      const { name, gloses, wordsDomain, translationDomain } = practiceListData;
+      const { name: listName, gloses, locatorMaps, wordsDomain, translationDomain } = practiceListData;
       const parsedGloses = gloses.map(glosData => {
         const { _words, _translations, _clues, _translationClues } = glosData;
         return new Glos(_words, _translations, _clues, _translationClues);
       });
-      return new PracticeList(name, parsedGloses, wordsDomain, translationDomain);
+      const parsedLocatorMaps = locatorMaps.map(locatorMapData => {
+        const { name, imageUrl, regions } = locatorMapData;
+        const parsedRegions = regions.map(regionData => {
+          const { _names, _coordinates, _color } = regionData;
+          const parsedCoordinates = _coordinates.map(coordinateData => {
+            const { _x, _y } = coordinateData;
+            return new Coordinate(_x, _y);
+          });
+          return new Region(_names, parsedCoordinates, _color);
+        });
+        return new LocatorMap(name, imageUrl, parsedRegions);
+      });
+      return new PracticeList(listName, parsedGloses, parsedLocatorMaps, wordsDomain, translationDomain);
     }
 
-    const practiceList = new PracticeList(practiceListName, []);
+    const practiceList = new PracticeList(name);
     this.savePracticeList(practiceList);
     return practiceList;
   }

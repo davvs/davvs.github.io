@@ -124,7 +124,6 @@ class Rehearsal {
                 return card.knowledgeScore < 100 && !this.recentGlosIndices.includes(card.glosIndex);
             });
 
-        console.log(`eligableCards: ${JSON.stringify(eligibleCards)}`)
         if (eligibleCards.length > 0) {
             eligibleCards.sort((a, b) => a.card.knowledgeScore - b.card.knowledgeScore);
             return eligibleCards[0];

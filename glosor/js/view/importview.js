@@ -21,10 +21,35 @@ class ImportViewController {
 
     importGlosList() {
         let importText = this.importInput.value.trim();
-        console.log(importText);
-        this.importedList = Exporter.urldecompress(importText);
-        console.log(JSON.stringify(this.importedList));
+        let importedList;
 
+        const importMethods = [
+            Exporter.importJson,
+            Exporter.urldecompress,
+            Exporter.fullurldecompress
+        ];
+
+        for (const importMethod of importMethods) {
+            try {
+                importedList = importMethod(importText);
+                break; // Exit the loop if import succeeds
+            } catch (error) {
+                console.info(`Failed to import using ${importMethod.name}`);
+            }
+        }
+
+        if (!importedList) {
+            console.error("Failed to import the glos list.");
+            return;
+        }
+
+        console.log(JSON.stringify(importedList));
+        this.importedList = importedList;
+        this.renderImportedList();
+    }
+
+
+    renderImportedList() {
         // Clear the existing content in the importedList container
         this.importedListTag.innerHTML = "";
 

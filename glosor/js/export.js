@@ -54,11 +54,21 @@ class ExportController {
             this.exportDataDiv.appendChild(importLink);
             this.exportDataDiv.appendChild(characterCountSpan);
             this.exportDataDiv.appendChild(copyButton);
-            this.exportDataDiv.appendChild(compressedDataDiv);
+
+
+            const qrH2 = document.createElement("h2")
+            qrH2.innerText = "QR kod som innehåller hela listan";
+            this.exportDataDiv.appendChild(qrH2);
+
+            const qrInstructions = document.createElement("div");
+            qrInstructions.innerText = "Klicka på QR koden för att expandera";
+            this.exportDataDiv.appendChild(qrInstructions);
 
             const qrDiv = document.createElement("div");
-
+            qrDiv.id = "qrDiv";
             this.exportDataDiv.appendChild(qrDiv);
+
+
             var qrCode = new QRCode(qrDiv, {
                 text: fullLink,
                 width: 1500,
@@ -73,6 +83,22 @@ class ExportController {
             qrDiv.addEventListener("click", () => {
                 window.open(qrCode._oDrawing._elImage.src, "_blank");
             });
+
+            const compressedDataH2 = document.createElement("h2")
+            compressedDataH2.innerText = "Komprimerad gloslista";
+            this.exportDataDiv.appendChild(compressedDataH2);
+            this.exportDataDiv.appendChild(compressedDataDiv);
+
+            // Create the div for JSON data
+            const jsonDataDiv = document.createElement("div");
+            jsonDataDiv.classList.add("json-data");
+            jsonDataDiv.textContent = JSON.stringify(this.practiceList);
+
+            const jsonH2 = document.createElement("h2");
+            jsonH2.innerText = "Data i JSON-format";
+            this.exportDataDiv.appendChild(jsonH2);
+            this.exportDataDiv.appendChild(jsonDataDiv);
+
 
         } else {
             console.error("No practice list loaded.");
