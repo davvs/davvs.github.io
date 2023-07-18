@@ -6,17 +6,34 @@
   <title>Practice List Editor</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="css/editlist.css">
+  <link rel="stylesheet" href="css/editlocatormapview.css">
 </head>
 <body>
 <div class="background-overlay"></div>
 <header></header>
 <div class="content">
-  <h1>Gloslista</h1>
-  <button id="rehearsalButton">Tillbaka till gloslistan</button>
-
-  <h2>Editera locator map</h2>
+  <div id="workRow">
+    <div id="imageContainer"></div>
+    <div id="toolPanel">
+      <h2 id="locatorMapHeader">Editera locator map</h2>
+      <button id="rehearsalButton">Tillbaka till gloslistan</button>
+      <button id="toggleUrl">Toggla url</button>
+      <div id="urlConfig">
+        <label for="imageUrlInput">Bild-URL:</label>
+        <input type="text" id="imageUrlInput" placeholder="Ange bildens URL">
+        <button id="loadImageButton">Ladda</button>
+      </div>
+      <div id="status">Klicka på bilden för att sätta ut de första koordinaterna för den nya regionen</div>
+      <div>
+        <button id="newRegionButton">Ny region</button>
+        <div id="regions"></div>
+      </div>
+    </div>
+  </div>
 </div>
 
+<script src="js/auth.js"></script>
+<script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
 <script src="js/script.js"></script>
 <script src="js/glostypes.js"></script>
 <script src="js/persistencemanager.js"></script>
