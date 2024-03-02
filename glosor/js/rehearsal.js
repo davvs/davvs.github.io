@@ -1,152 +1,154 @@
-class Rehearsal {
-    constructor(practiceList, maxRecentResponses = 10, avoidRepeatFrequency = 2) {
-        if (!(practiceList instanceof PracticeList)) {
-            throw new Error("Invalid argument. 'practiceList' must be an instance of PracticeList.");
+class GlosCard {
+    constructor(question, answers, clues, questionDomain, answerDomain, knowledgeScore = 50, glosIndex) {
+        if (typeof question !== 'string' || !question.trim()) {
+            throw new Error("Invalid argument. 'question' must be a non-empty string.");
         }
 
-        if (typeof maxRecentResponses !== "number" || maxRecentResponses < 1) {
-            throw new Error("Invalid argument. 'maxRecentResponses' must be a positive number.");
+        if (!Array.isArray(answers) || answers.some(answer => typeof answer !== 'string' || !answer.trim())) {
+            throw new Error("Invalid argument. 'answers' must be a non-empty array of strings.");
         }
 
-        if (typeof avoidRepeatFrequency !== "number" || avoidRepeatFrequency < 1) {
-            throw new Error("Invalid argument. 'avoidRepeatFrequency' must be a positive number.");
+        if (!Array.isArray(clues) || clues.some(clue => typeof clue !== 'string' || !clue.trim())) {
+            throw new Error("Invalid argument. 'clues' must be a non-empty array of strings.");
         }
 
-        this.practiceList = practiceList;
-        this.knowledgeStates = new Map();
-        this.maxRecentResponses = maxRecentResponses;
-        this.avoidRepeatFrequency = avoidRepeatFrequency;
-        this.initialScore = 30;
-        this.recentIndices = [];
+        if (typeof questionDomain !== 'string' || !questionDomain.trim()) {
+            throw new Error("Invalid argument. 'questionDomain' must be a non-empty string.");
+        }
 
-        this.practiceList.gloses.forEach((glos, index) => {
-            this.knowledgeStates.set(index, {
-                knowledge: this.initializeKnowledgeState(this.initialScore),
-                translationKnowledge: this.initializeKnowledgeState(this.initialScore),
-            });
-        });
+        if (typeof answerDomain !== 'string' || !answerDomain.trim()) {
+            throw new Error("Invalid argument. 'answerDomain' must be a non-empty string.");
+        }
+
+        this.question = question;
+        this.answers = answers;
+        this.clues = clues;
+        this.questionDomain = questionDomain;
+        this.answerDomain = answerDomain;
+        this.recentGuesses = [];
+        this.knowledgeScore = knowledgeScore;
+        this.glosIndex = glosIndex;
     }
-
-    initializeKnowledgeState(initialScore) {
-        return {
-            recentResponses: [],
-            score: initialScore,
-        };
-    }
-
-    submitAnswer(glosIndex, isAnswerTranslation, guess) {
-        if (typeof glosIndex !== "number" || glosIndex < 0 || glosIndex >= this.practiceList.gloses.length) {
-            throw new Error("Invalid argument. 'glosIndex' must be a valid index within the range of PracticeList gloses.");
-        }
-
-        if (typeof isAnswerTranslation !== "boolean") {
-            throw new Error("Invalid argument. 'isAnswerTranslation' must be a boolean value.");
-        }
-
-        if (typeof guess !== "string") {
-            throw new Error("Invalid argument. 'guess' must be a string.");
-        }
-
-        const glos = this.practiceList.gloses[glosIndex];
-        const isCorrect = isAnswerTranslation ? glos.translations.includes(guess) : glos.words.includes(guess);
-
-        return {
-            isCorrect,
-            score: this.getScore(glosIndex, isAnswerTranslation),
-        };
-    }
-
-    acceptResult(glosIndex, isAnswerTranslation, guess, isCorrect) {
-        if (typeof glosIndex !== "number" || glosIndex < 0 || glosIndex >= this.practiceList.gloses.length) {
-            throw new Error("Invalid argument. 'glosIndex' must be a valid index within the range of PracticeList gloses.");
-        }
-
-        const glos = this.practiceList.gloses[glosIndex];
-        const knowledgeState = isAnswerTranslation
-            ? this.knowledgeStates.get(glosIndex).translationKnowledge
-            : this.knowledgeStates.get(glosIndex).knowledge;
-
-        const recentResponse = {
-            guess,
-            correct: isCorrect,
-        };
-
-        knowledgeState.recentResponses.push(recentResponse);
-
-        if (knowledgeState.recentResponses.length > this.maxRecentResponses) {
-            knowledgeState.recentResponses.shift();
-        }
-
-        knowledgeState.score = this.getScore(glosIndex, isAnswerTranslation);
-
-        this.updateRecentIndices(glosIndex);
-    }
-
-    getScore(glosIndex, isAnswerTranslation) {
-        if (typeof glosIndex !== "number" || glosIndex < 0 || glosIndex >= this.practiceList.gloses.length) {
-            throw new Error("Invalid argument. 'glosIndex' must be a valid index within the range of PracticeList gloses.");
-        }
-
-        const knowledgeState = isAnswerTranslation
-            ? this.knowledgeStates.get(glosIndex).translationKnowledge
-            : this.knowledgeStates.get(glosIndex).knowledge;
-
-        if (knowledgeState.recentResponses.length === 0) {
-            return 0;
-        }
-
-        const correctCount = knowledgeState.recentResponses.filter((response) => response.correct).length;
-        const percentage = (correctCount / this.maxRecentResponses) * 100;
-        return Math.round(percentage);
-    }
-
-    getLowestScoreIndex(avoidRecentList = []) {
-        let lowestScoreIndex = null;
-        let lowestScore = 100;
-
-        this.knowledgeStates.forEach((state, index) => {
-            if (!avoidRecentList.includes(index)) {
-                const knowledgeScore = Math.min(state.knowledge.score, state.translationKnowledge.score);
-                if (knowledgeScore < lowestScore) {
-                    lowestScore = knowledgeScore;
-                    lowestScoreIndex = index;
-                }
-            }
-        });
-
-        return lowestScoreIndex;
-    }
-
-    updateRecentIndices(index) {
-        this.recentIndices.push(index);
-
-        if (this.recentIndices.length > this.avoidRepeatFrequency) {
-            this.recentIndices.shift();
-        }
-    }
-
-    debugPrint() {
-        console.log("Rehearsal Data:");
-
-        this.knowledgeStates.forEach((state, index) => {
-            const glos = this.practiceList.gloses[index];
-
-            console.log(`Glos Index: ${index}`);
-            console.log(`Glos: ${glos.words.join(", ")}`);
-            console.log(`Translations: ${glos.translations.join(", ")}`);
-            console.log(`Knowledge Score: ${state.knowledge.score}`);
-            console.log(`TranslationKnowledge Score: ${state.translationKnowledge.score}`);
-            console.log("Recent translation Guesses:");
-            state.knowledge.recentResponses.forEach((response, i) => {
-                console.log(`Guess ${i + 1}: ${response.guess} - ${response.correct ? "Correct" : "Incorrect"}`);
-            });
-            console.log("Recent reversed Guesses:");
-            state.translationKnowledge.recentResponses.forEach((response, i) => {
-                console.log(`Guess on reverse ${i + 1}: ${response.guess} - ${response.correct ? "Correct" : "Incorrect"}`);
-            });
-            console.log("-------------------");
-        });
-    }
-
 }
 
+class Rehearsal {
+    constructor(glosCards, avoidRepeatFrequency, maxRecentResponses) {
+        if (!Array.isArray(glosCards) || glosCards.some(card => !(card instanceof GlosCard))) {
+            throw new Error("Invalid argument. 'glosCards' must be a non-empty array of GlosCard instances.");
+        }
+
+        this.glosCards = glosCards;
+        this.recentGlosIndices = [];
+        this.lastGlosCardIndex = null;
+        this.avoidRepeatFrequency = avoidRepeatFrequency;
+        this.maxRecentResponses = maxRecentResponses;
+        this.currentQuestionUsedClue = null;
+        this.currentQuestionWasCorrect = false;
+        this.currentGlosCard = null;
+        this.currentGlosCardIndex = null;
+
+    }
+
+    submitAnswer(answer) {
+        let isCorrect = this.isAnswerCorrect(currentRehearsal.currentGlosCard, answer);
+        this.currentQuestionWasCorrect = isCorrect;
+        this.currentGuess = answer;
+        return isCorrect;
+    }
+
+    isAnswerCorrect(glosCard, answer) {
+        const trimmedAnswer = answer.trim().toLowerCase();
+        return glosCard.answers.some(glosAnswer => glosAnswer.trim().toLowerCase() === trimmedAnswer);
+    }
+
+    getClue() {
+        this.currentQuestionUsedClue = true;
+        const remainingClues = this.remainingClues;
+        if (remainingClues.length > 0) {
+            const clue = remainingClues.shift();
+            return clue;
+        } else {
+            return "No more clues";
+        }
+    }
+
+    finishAnswer() {
+
+        this.recentGlosIndices.push(this.currentGlosCard.glosIndex);
+        this.recentGlosIndices = this.recentGlosIndices.slice(-(this.avoidRepeatFrequency-1));
+        console.log("Recent Glos Indices:", JSON.stringify(this.recentGlosIndices)); // Print statement
+
+        this.lastGlosCardIndex = this.currentGlosCardIndex;
+
+        console.log("Last glos card index:", this.lastGlosCardIndex);
+
+        this.currentGlosCard.recentGuesses.push(this.currentGuess); // Append the new element
+        if (this.currentGlosCard.recentGuesses.length > this.maxRecentResponses) {
+            let cap = this.maxRecentResponses;
+            this.currentGlosCard.recentGuesses = this.currentGlosCard.recentGuesses.slice(-cap); // Keep the last 3 elements
+        }
+        this.currentGlosCard.knowledgeScore = this.calculateKnowledgeScore(this.currentGlosCard)
+
+        this.currentGuess = null;
+    }
+
+    getNextGlosCard() {
+        if (this.currentQuestionWasCorrect == null) {
+            throw new Error(`Next question was called before question was answered`);
+        }
+
+        if (this.currentGuess != null) {
+            this.finishAnswer();
+        }
+
+        if (this.isRehearsalFinished()) {
+            return null;
+        }
+        let currentGlosCardWithIndex = this.getNextGlosCardAux();
+        this.currentGlosCard = currentGlosCardWithIndex.card;
+        this.currentGlosCardIndex = currentGlosCardWithIndex.index;
+
+        this.currentQuestionUsedClue = false;
+        this.remainingClues = this.currentGlosCard.clues;
+
+        this.currentQuestionWasCorrect = null;
+        return this.currentGlosCard;
+    }
+
+    getNextGlosCardAux() {
+
+        //console.log(`finding new card: recentGlosIndices:${JSON.stringify(this.recentGlosIndices)}`)
+        const eligibleCards = this.glosCards
+            .map((card, index) => ({ card, index }))
+            .filter(({ card, index }) => {
+                return card.knowledgeScore < 100 && !this.recentGlosIndices.includes(card.glosIndex);
+            });
+
+        if (eligibleCards.length > 0) {
+            eligibleCards.sort((a, b) => a.card.knowledgeScore - b.card.knowledgeScore);
+            return eligibleCards[0];
+        } else {
+            console.log(`No eligable cards! only avoiding glosCardIndex:${this.lastGlosCardIndex}`)
+            const remainingCards = this.glosCards
+                .filter((card, index) => index !== this.lastGlosCardIndex)
+                .map((card, index) => ({ card, index }));
+            remainingCards.sort((a, b) => a.card.knowledgeScore - b.card.knowledgeScore);
+            return remainingCards[0];
+        }
+    }
+
+    calculateKnowledgeScore(glosCard) {
+        let correctCount = 0;
+        for (const guess of glosCard.recentGuesses) {
+            if (this.isAnswerCorrect(glosCard, guess)) {
+                correctCount++;
+            }
+        }
+        const correctPct = (correctCount / this.maxRecentResponses) * 100;
+        return correctPct;
+    }
+
+    isRehearsalFinished() {
+        return this.glosCards.every((glosCard) => glosCard.knowledgeScore >= 100);
+    }
+}

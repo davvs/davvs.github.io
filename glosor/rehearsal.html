@@ -12,23 +12,39 @@
 <header></header>
 <div class="content">
   <form id="startForm">
-    <label for="avoidRepeatFrequency">Antal glosor i taget innan nya tas in</label>
+    <label for="avoidRepeatFrequency">Antal svåra glosor i rotation samtidigt</label>
     <input type="number" id="avoidRepeatFrequency" min="2" value="3">
     <br/>
     <label for="maxRecentResponses">Krävda antal rätt i rad för att ett översättning ska tolkas som kunskap</label>
-    <input type="number" id="maxRecentResponses" min="1" value="4">
+    <input type="number" id="maxRecentResponses" min="1" value="2">
     <br/>
+    <label id="translationsLabel" for="translationsCheckbox">TEST</label>
+    <input type="checkbox" id="translationsCheckbox" checked="checked"/>
+    <br/>
+    <label id="reversedTranslationsLabel" for="reversedTranslationsCheckbox">ASDF</label>
+    <input type="checkbox" id="reversedTranslationsCheckbox" checked="checked"/>
+    <br/>
+    <div id="glosesListContainer">
+      <ul id="gloses"></ul>
+    </div>
     <button type="submit">Starta glosförhör</button>
+    <div id="message">Klicka på "Starta glosförhör" för att börja.</div>
   </form>
-  <div id="message">Klicka på "Starta glosförhör" för att börja.</div>
+
+
   <form id="quizForm"></form>
   <button id="debugButton">Debug</button>
+
+  <div id="debugData"></div>
 </div>
 
+<script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
+<script src="js/auth.js"></script>
 <script src="js/script.js"></script>
 <script src="js/glostypes.js"></script>
 <script src="js/persistencemanager.js"></script>
 <script src="js/rehearsal.js"></script>
-<script src="js/view/rehearsal.js"></script>
+<script src="js/view/rehearsalview.js"></script>
 </body>
 </html>
+

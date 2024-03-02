@@ -11,15 +11,51 @@
 <div class="background-overlay"></div>
 <header></header>
 <div class="content">
-  <h1>Editera lista</h1>
+  <h1>Gloslista</h1>
+  <button id="rehearsalButton">Träna på</button>
+
+
+  <h2>Domän</h2>
+  <form id="domainForm">
+    <label for="wordDomain">Orddomän:</label>
+    <input type="text" id="wordDomain" value="🇸🇪">
+
+    <label for="translationDomain">Översättningsdomän:</label>
+    <input type="text" id="translationDomain" value="🇬🇧">
+
+    <button type="submit">Spara</button>
+  </form>
+
+  <h2>Glosor</h2>
   <form id="addGlosForm">
     <input type="text" id="wordsInput" placeholder="Ord, använd ',' för flera ord">
     <input type="text" id="translationsInput" placeholder="Översättning, använd ',' för flera ord">
+    <input type="text" id="cluesInput" placeholder="Tips, använd ',' för flera tips">
+    <input type="text" id="translationCluesInput" placeholder="Tips på översättning, använd ',' för flera tips">
     <button type="submit">Add Glos</button>
   </form>
   <div id="glosList"></div>
+
+  <h2>Locator Maps</h2>
+  <form id="addLocatorMapForm">
+    <input type="text" id="locatorMapNameInput" placeholder="Name">
+    <button type="submit">Add Locator Map</button>
+  </form>
+  <div id="locatorMapList"></div>
+
+  <h2>Importera glosor</h2>
+  <form id="importGlosesForm">
+    <label>Importera glosor</label>
+    <br/>
+    <textarea id="importInput" rows="4" cols="120" placeholder=""></textarea>
+    <br/>
+    <button type="submit">Import gloses</button>
+  </form>
 </div>
 
+
+<script src="js/auth.js"></script>
+<script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
 <script src="js/script.js"></script>
 <script src="js/glostypes.js"></script>
@@ -27,4 +63,3 @@
 <script src="js/editlist.js"></script>
 </body>
 </html>
-

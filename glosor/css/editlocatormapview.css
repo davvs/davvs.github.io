@@ -1,0 +1,43 @@
+#imageUrlInput {
+    width: 100%;
+}
+
+#workRow {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#imageContainer {
+    flex: 1 0 75%;
+    max-width: 60%;
+}
+
+#toolPanel {
+    flex: 1 0 25%;
+    max-width: 40%;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Ensure imageContainer remains visible on small screens */
+@media screen and (max-width: 600px) {
+    #workRow {
+        flex-direction: column;
+    }
+
+    #imageContainer {
+        max-width: 100%;
+        order: 2;
+    }
+
+    #toolPanel {
+        max-width: 100%;
+        order: 1;
+    }
+}
+
+#imageContainer canvas {
+    border: 2px solid black;
+}

@@ -1,3 +1,4 @@
+
 window.addEventListener('scroll', function() {
   var header = document.querySelector('header');
   if (window.pageYOffset > 0) {
@@ -15,8 +16,11 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     .then(function(html) {
       headerContainer.innerHTML = html;
+      headerLoaded();
     })
     .catch(function(error) {
       console.log('Failed to load header:', error);
     });
 });
+
+

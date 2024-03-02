@@ -4,10 +4,16 @@
 }
 
 .glos-words,
-.glos-translations {
+.glos-translations,
+.glos-clues,
+.glos-translation-clues {
   display: inline-block;
 }
 
-.glos-translations, .remove-button {
-  margin-left: 10px;
+.glos-translations, .remove-button, .glos-translation-clues {
+  margin-left: 2em;
+}
+
+.glos-clues {
+  margin-left: 3em;
 }
