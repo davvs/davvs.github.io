@@ -1,18 +1,51 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kodarstugans hobbyprojekt</title>
+  <style>
+    /* Apply margin to the body to affect all elements within */
+    body {
+      width: 800px; /* 200px margin on the left and right sides */
+      margin: auto;
+      background-color: #eef; /* Light blue background */
+      font-family: 'Lobster', monospace; /* Set the "fun" font */
+    }
+    .toolRow {
+      height: 200px; /* Fixed height */
+      margin-bottom: 20px; /* Margin between the two divs */
+      border: black;
+      border-style: dotted;
+      padding: 10px;
+    }
+    .toolRow * {
+      float:left;
+      height: 100%;
+      align-items: center;
+      display: flex;
+      padding-left: 50px;
+      padding-right: 50px;
+    }
+  </style>
+</head>
 <body>
 
-<ul>
-  <li>
-    <a href="/Rudoworld">
-    Rudoworld
+<h1>Davvs hobbyproject</h1>
+<div class="toolRow">
+  <a href="/Rudoworld">
     <img src="RudoworldIcon.png"></img>
-    </a>
-  </li>
-  <li>
-    <a href="/glosor">
-      Davvs ultimata glosprogram
-    </a>
-  </li>
-</ul>
+    Rudoworld
+  </a>
+  <a href="/Rudoworld.apk">
+    Rudoworld android app
+  </a>
+</div>
+<div class="toolRow">
+  <a href="/glosor">
+    Davvs ultimata glosprogram
+  </a>
+</div>
+
 </body>
 </html>
