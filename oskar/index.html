@@ -3,9 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Oskars finurliga spel</title>
+    <script src="main.js"></script>
 </head>
 <body>
-HEJ!
+<div id="game" style="width: 600px; text-align: center; margin: 0 auto;">
+    <div id="inventory" style="background-color: lightblue; padding: 10px; margin: 20px;">
+        Du har inga monster.
+    </div>
+    <div id="encounter" style="background-color: lightgreen; padding: 10px; margin: 20px;">
+        Du får välja ett monster att börja med.
+    </div>
+    <div id="choices" style="background-color: lightcoral; padding: 10px; margin: 20px;">
+        <button id="choice1" onclick="choice(1)">Aquanid</button>
+        <button id="choice2" onclick="choice(2)">Floweron</button>
+        <button id="choice3" onclick="choice(3)">Ancient beast</button>
+    </div>
+</div>
 
 </body>
 </html>
